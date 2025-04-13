@@ -22,10 +22,28 @@ public class CustomUserDetailsService implements UserDetailsService {
    */
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    User user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+    // Normaliser l'email en minuscules pour éviter les problèmes de casse
+    String normalizedEmail = email.toLowerCase().trim();
+    System.out.println("Recherche d'utilisateur avec email normalisé : " + normalizedEmail);
+    
+    try {
+      // Utiliser la méthode insensible à la casse pour améliorer la recherche d'utilisateur
+      User user = userRepository.findByEmailIgnoreCase(normalizedEmail)
+          .orElseThrow(() -> {
+            System.out.println("Aucun utilisateur trouvé avec cet email (insensible à la casse) : " + normalizedEmail);
+            return new UsernameNotFoundException("User not found with email: " + normalizedEmail);
+          });
 
-    return org.springframework.security.core.userdetails.User.withUsername(user.getEmail()).password(user.getPassword())
-        .authorities(new ArrayList<>()).build();
+      System.out.println("Utilisateur trouvé avec ID : " + user.getId());
+      System.out.println("Mot de passe haché récupéré de la BDD : " + user.getPassword());
+
+      return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
+          .password(user.getPassword())
+          .authorities(new ArrayList<>())
+          .build();
+    } catch (Exception e) {
+      System.out.println("Exception lors de la recherche de l'utilisateur : " + e.getMessage());
+      throw e;
+    }
   }
 }

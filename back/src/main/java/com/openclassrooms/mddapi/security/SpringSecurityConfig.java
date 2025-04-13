@@ -33,10 +33,9 @@ public class SpringSecurityConfig {
         .authorizeHttpRequests(auth -> {
           // Routes publiques
           auth.requestMatchers(HttpMethod.GET, "/api/", "/api").permitAll();
-          auth.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
-          auth.requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll();
-          auth.requestMatchers("/api/auth/**").permitAll();
-          // Toutes les autres requêtes nécessitent une authentification
+          auth.requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll();
+          auth.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
+          // Les autres requêtes nécessitent une authentification
           auth.anyRequest().authenticated();
         }).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider())

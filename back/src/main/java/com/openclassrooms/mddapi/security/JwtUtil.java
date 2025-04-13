@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class JwtUtil {
@@ -22,6 +23,7 @@ public class JwtUtil {
 
     private Key key;
 
+    @PostConstruct
     public void init() {
         String secretKey = dotenv.get("JWT_SECRET_KEY");
         if (secretKey == null || secretKey.trim().isEmpty()) {

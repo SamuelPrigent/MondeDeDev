@@ -16,7 +16,7 @@ public class MddApiApplication {
 
   @EventListener(ApplicationReadyEvent.class)
   public void logApplicationStartup() {
-    System.out.println(ansi().fg(GREEN).a("=> API Listening : port 8080").reset());
+    System.out.println(ansi().fg(GREEN).a("---- API is listening on port 8080 ----").reset());
   }
 
 }

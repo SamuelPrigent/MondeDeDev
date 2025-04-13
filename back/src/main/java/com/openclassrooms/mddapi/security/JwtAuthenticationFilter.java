@@ -30,12 +30,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     final String authHeader = request.getHeader("Authorization");
 
+    // Si pas d'en-tête d'authentification, passer au filtre suivant
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+
     String token = null;
     String userEmail = null;
 
     String requestURI = request.getRequestURI();
-    // debug
-    System.out.println("Request URI: " + requestURI);
     if (!requestURI.equals("/api/auth/login") && !requestURI.equals("/api/auth/register") && authHeader != null
         && authHeader.startsWith("Bearer ")) {
       token = authHeader.substring(7);
