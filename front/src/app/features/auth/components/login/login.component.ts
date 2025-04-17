@@ -36,7 +36,7 @@ export class LoginComponent implements OnDestroy {
           //   response: SessionInformation
           {
             // this.sessionService.logIn(response); // for guards unauth, auth
-            // TODO persist token (interceptor ? ) // for interceptor (qui embarque le token pour les request)
+            // TODO persist token ? // for interceptor (qui embarque le token pour les request)
             this.router.navigate(['/home']);
           },
         //   error: error => this.onError = true,

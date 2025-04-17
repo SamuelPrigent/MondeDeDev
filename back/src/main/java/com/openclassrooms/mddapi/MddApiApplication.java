@@ -10,13 +10,13 @@ import static org.fusesource.jansi.Ansi.ansi;
 @SpringBootApplication
 public class MddApiApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(MddApiApplication.class, args);
-  }
+	public static void main(String[] args) {
+		SpringApplication.run(MddApiApplication.class, args);
+	}
 
-  @EventListener(ApplicationReadyEvent.class)
-  public void logApplicationStartup() {
-    System.out.println(ansi().fg(GREEN).a("---- API is listening on port 8080 ----").reset());
-  }
+	@EventListener(ApplicationReadyEvent.class)
+	public void logApplicationStartup() {
+		System.out.println(ansi().fg(GREEN).a("---- API is listening on port 8080 ----").reset());
+	}
 
 }

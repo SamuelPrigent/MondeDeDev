@@ -18,46 +18,45 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class UserService {
 
-  @Autowired
-  private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-  @Autowired
-  private BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
-  public boolean existsByEmail(String email) {
-    return userRepository.findByEmail(email).isPresent();
-  }
+	public boolean existsByEmail(String email) {
+		return userRepository.findByEmail(email).isPresent();
+	}
 
-  public User createUser(User user) {
-    return userRepository.save(user);
-  }
+	public User createUser(User user) {
+		return userRepository.save(user);
+	}
 
-  // Create user
-  public GetUserDTO createUser(CreateUserDTO createUserDTO) {
-    createUserDTO.validate(); // Validation des données
-    // Vérification si l'email existe déjà // TODO
-    if (existsByEmail(createUserDTO.getEmail())) {
-      throw new IllegalArgumentException("Un utilisateur avec cet email existe déjà");
-    }
-    User user = new User();
-    user.setEmail(createUserDTO.getEmail());
-    user.setUsername(createUserDTO.getUsername());
-    user.setPassword(passwordEncoder.encode(createUserDTO.getPassword()));
+	// Create user
+	public GetUserDTO createUser(CreateUserDTO createUserDTO) {
+		createUserDTO.validate(); // Validation des données
+		if (existsByEmail(createUserDTO.getEmail())) {
+			throw new IllegalArgumentException("Un utilisateur avec cet email existe déjà");
+		}
+		User user = new User();
+		user.setEmail(createUserDTO.getEmail());
+		user.setUsername(createUserDTO.getUsername());
+		user.setPassword(passwordEncoder.encode(createUserDTO.getPassword()));
 
-    User savedUser = userRepository.save(user);
-    return new GetUserDTO(savedUser);
-  }
+		User savedUser = userRepository.save(user);
+		return new GetUserDTO(savedUser);
+	}
 
-  public Optional<GetUserDTO> getById(Long id) {
-    return userRepository.findById(id).map(user -> new GetUserDTO(user));
-  }
+	public Optional<GetUserDTO> getById(Long id) {
+		return userRepository.findById(id).map(user -> new GetUserDTO(user));
+	}
 
-  public GetUserDTO getByEmail(String email) {
-    return findByEmail(email).map(user -> new GetUserDTO(user))
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouvé"));
-  }
+	public GetUserDTO getByEmail(String email) {
+		return findByEmail(email).map(user -> new GetUserDTO(user))
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouvé"));
+	}
 
-  public Optional<User> findByEmail(String email) {
-    return userRepository.findByEmail(email);
-  }
+	public Optional<User> findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 }
