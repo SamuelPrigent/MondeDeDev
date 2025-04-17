@@ -1,1 +1,22 @@
-<router-outlet></router-outlet>
+<div class="app">
+  <mat-toolbar
+    color="primary"
+    class="navBar d-flex justify-content-between align-items-center"
+  >
+    <span class="link" routerLink="home">MDD</span>
+    <div *ngIf="$isLogged() | async; else notLogged">
+      <span routerLink="sessions" class="link">Sessions</span>
+      <span routerLink="me" class="link">Account</span>
+      <span (click)="logout()" class="link">Logout</span>
+    </div>
+    <ng-template #notLogged>
+      <div>
+        <span routerLink="login" class="link">Login</span>
+        <span routerLink="register" class="link">Register</span>
+      </div>
+    </ng-template>
+  </mat-toolbar>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

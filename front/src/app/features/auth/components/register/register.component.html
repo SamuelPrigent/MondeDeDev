@@ -1,0 +1,33 @@
+<div class="register d-flex justify-content-center align-items-center h-full">
+  <mat-card>
+    <mat-card-header class="d-flex justify-content-center align-items-center">
+      <mat-card-title>Inscription</mat-card-title>
+    </mat-card-header>
+    <form class="register-form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-card-content class="d-flex flex-column">
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            placeholder="Nom utilisateur"
+            formControlName="username"
+          />
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <input matInput placeholder="Email" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <input matInput placeholder="Password" formControlName="password" />
+        </mat-form-field>
+      </mat-card-content>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Submit
+      </button>
+      <span *ngIf="onError" class="error ml2">An error occurred</span>
+    </form>
+  </mat-card>
+</div>
