@@ -19,9 +19,6 @@ import com.openclassrooms.mddapi.dto.LoginResponseDTO;
 import com.openclassrooms.mddapi.service.UserService;
 import com.openclassrooms.mddapi.exception.EmailExistException;
 import com.openclassrooms.mddapi.security.JwtUtil;
-// Pour le débogage
-import java.util.Optional;
-import com.openclassrooms.mddapi.models.User;
 
 @RestController
 @RequestMapping("/api")
@@ -55,16 +52,6 @@ public class AuthController {
     // Récupérer l'utilisateur créé pour le renvoyer dans la réponse
     GetUserDTO createdUser = userService.getByEmail(createUserDTO.getEmail());
 
-    // Connexion de l'utilisateur (automatique)
-    // Authentication authentication = authenticationManager
-    // .authenticate(new
-    // UsernamePasswordAuthenticationToken(createUserDTO.getEmail(),
-    // createUserDTO.getPassword()));
-    // get user details;
-    // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    // String token = jwtUtil.generateToken(userDetails);
-    // return ResponseEntity.ok(new LoginResponseDTO(token));
-
     return ResponseEntity.ok(createdUser);
   }
 
@@ -87,34 +74,18 @@ public class AuthController {
 
   @PostMapping({ "/auth/login", "/auth/login/" })
   public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
-    System.out.println("Tentative de connexion pour l'email: " + loginRequest.getEmail());
-    // Récupérer l'utilisateur pour le débogage (avant l'authentification)
-    try {
-      Optional<User> userOpt = userService.findByEmail(loginRequest.getEmail());
-      if (userOpt.isPresent()) {
-        User user = userOpt.get();
-        System.out.println("Utilisateur trouvé en base de données");
-        System.out.println("Mot de passe haché en base: " + user.getPassword());
-        // Pour raisons de sécurité, on ne log pas le mot de passe en clair, mais sa
-        // longueur
-        System.out.println("Longueur du mot de passe fourni: " + loginRequest.getPassword().length());
-      } else {
-        System.out.println("Utilisateur non trouvé en base de données avec cet email");
-      }
-    } catch (Exception ex) {
-      System.out.println("Erreur lors de la récupération de l'utilisateur: " + ex.getMessage());
-    }
-
+    // System.out.println("Tentative de connexion pour l'email: " +
+    // loginRequest.getEmail());
     try {
       // Authentification
       Authentication authentication = authenticationManager
           .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-      System.out.println("Authentification réussie");
+      // System.out.println("Authentification réussie");
 
       // get user details
       UserDetails userDetails = (UserDetails) authentication.getPrincipal();
       String token = jwtUtil.generateToken(userDetails);
-      System.out.println("Token généré avec succès");
+      // System.out.println("Token généré avec succès");
 
       return ResponseEntity.ok(new LoginResponseDTO(token));
     } catch (Exception e) {
@@ -137,7 +108,7 @@ public class AuthController {
   }
 
   /**
-   * GET /api/user/{id}
+   * GET /api/user/{id} we dont create a UserController just for one route ?
    */
   @GetMapping("/user/{id}")
   public ResponseEntity<GetUserDTO> getUserById(@PathVariable Long id) {

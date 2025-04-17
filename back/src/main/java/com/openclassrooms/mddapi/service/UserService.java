@@ -35,7 +35,7 @@ public class UserService {
   // Create user
   public GetUserDTO createUser(CreateUserDTO createUserDTO) {
     createUserDTO.validate(); // Validation des données
-    // Vérification si l'email existe déjà
+    // Vérification si l'email existe déjà // TODO
     if (existsByEmail(createUserDTO.getEmail())) {
       throw new IllegalArgumentException("Un utilisateur avec cet email existe déjà");
     }
