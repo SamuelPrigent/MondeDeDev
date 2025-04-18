@@ -1,0 +1,22 @@
+<div class="m3">
+  <mat-card>
+    <mat-card-title>
+      <div class="row-start-center">
+        <button mat-icon-button (click)="back()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>User information</h1>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <div *ngIf="user" class="column-start-center">
+        <p>Username: {{ user.username || "..." }}</p>
+        <p>Email: {{ user.email || "..." }}</p>
+        <div class="space-between-center p2 w100">
+          <p><i>Create at: </i> {{ user.created_at || "..." }}</p>
+          <p><i>Last update: </i> {{ user.updated_at || "..." }}</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -5,9 +5,8 @@ import { AuthGuard } from './guards/auth.guard';
 // components
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { MeComponent } from './components/me/me.component';
 
-// consider a guard combined with canLoad / canActivate route option
-// to manage unauthenticated user to access private routes
 const routes: Routes = [
   {
     path: '',
@@ -16,15 +15,7 @@ const routes: Routes = [
       import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
   { path: 'home', canActivate: [AuthGuard], component: HomeComponent },
-  //   need this logic to maintain session, persist token, state of connexion with $isLogged
-  //     {
-  //       path: 'home',
-  //       canActivate: [AuthGuard],
-  //   loadChildren: () =>
-  //     import('./features/sessions/sessions.module').then(
-  //       (m) => m.SessionsModule
-  //     ),
-  //     },
+  { path: 'me', canActivate: [AuthGuard], component: MeComponent },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' },
 ];

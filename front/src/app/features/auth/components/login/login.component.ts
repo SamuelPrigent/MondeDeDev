@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { AuthService } from '../../services/auth.service';
-// import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
-// import { SessionService } from 'src/app/services/session.service';
+import { SessionService } from 'src/app/services/session.service';
+import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
 
 @Component({
   selector: 'app-login',
@@ -25,21 +25,20 @@ export class LoginComponent implements OnDestroy {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router //   private sessionService: SessionService
+    private router: Router,
+    private sessionService: SessionService
   ) {}
 
   public submit(): void {
     const loginRequest = this.form.value as LoginRequest;
     this.subscription.add(
       this.authService.login(loginRequest).subscribe({
-        next: () =>
-          //   response: SessionInformation
-          {
-            // this.sessionService.logIn(response); // for guards unauth, auth
-            // TODO persist token ? // for interceptor (qui embarque le token pour les request)
-            this.router.navigate(['/home']);
-          },
-        //   error: error => this.onError = true,
+        next: (response: SessionInformation) => {
+          // update sessionService avec la réponse de authService for state utilisés par les (guards : unauth, auth)
+          this.sessionService.logIn(response);
+          this.router.navigate(['/home']);
+        },
+        error: () => (this.onError = true),
       })
     );
   }

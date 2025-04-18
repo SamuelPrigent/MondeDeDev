@@ -5,7 +5,7 @@
   >
     <span class="link" routerLink="home">MDD</span>
     <div *ngIf="$isLogged() | async; else notLogged">
-      <span routerLink="sessions" class="link">Sessions</span>
+      <span routerLink="home" class="link">Accueil</span>
       <span routerLink="me" class="link">Account</span>
       <span (click)="logout()" class="link">Logout</span>
     </div>

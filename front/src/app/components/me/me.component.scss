@@ -1,0 +1,46 @@
+.m3 {
+  margin: 1.5rem;
+}
+
+.my2 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.p2 {
+  padding: 1rem;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.row-start-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+// Pour "fxLayout=column fxLayoutAlign=start center"
+.column-start-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+// Pour "fxLayout=column fxLayoutAlign=center center"
+.column-center-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+// Pour "fxLayoutAlign=space-between center"
+.space-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

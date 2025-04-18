@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './features/auth/services/auth.service';
+import { SessionService } from './services/session.service';
 // import { SessionInformation } from './interfaces/sessionInformation.interface';
-// import { SessionService } from './services/session.service';
 
 @Component({
   selector: 'app-root',
@@ -15,16 +15,17 @@ export class AppComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router // private sessionService: SessionService
+    private router: Router,
+    private sessionService: SessionService
   ) {}
 
   public $isLogged(): Observable<boolean> {
-    // return this.sessionService.$isLogged();
-    return new Observable<boolean>((observer) => observer.next(false)); // logged false en dur
+    return this.sessionService.$isLogged();
+    // return new Observable<boolean>((observer) => observer.next(false)); // logged false en dur
   }
 
   public logout(): void {
-    // this.sessionService.logOut();
+    this.sessionService.logOut();
     this.router.navigate(['login']);
   }
 }
