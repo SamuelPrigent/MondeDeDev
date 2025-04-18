@@ -1,22 +1,29 @@
 <div class="m3">
   <mat-card>
-    <mat-card-title>
-      <div class="row-start-center">
-        <button mat-icon-button (click)="back()">
-          <mat-icon>arrow_back</mat-icon>
-        </button>
-        <h1>User information</h1>
-      </div>
+    <mat-card-title style="display: flex; align-items: center; margin-bottom: 25px">
+      <button mat-icon-button (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1 style="margin: 0">User information</h1>
     </mat-card-title>
-    <mat-card-content>
-      <div *ngIf="user" class="column-start-center">
-        <p>Username: {{ user.username || "..." }}</p>
-        <p>Email: {{ user.email || "..." }}</p>
-        <div class="space-between-center p2 w100">
-          <p><i>Create at: </i> {{ user.created_at || "..." }}</p>
-          <p><i>Last update: </i> {{ user.updated_at || "..." }}</p>
-        </div>
-      </div>
+    <mat-card-content class="containerUserInfo">
+      <!--form-->
+      <form class="formPutRequest" [formGroup]="userForm" (ngSubmit)="putUser()">
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" />
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Update</button>
+      </form>
+      <!--form-->
     </mat-card-content>
   </mat-card>
 </div>

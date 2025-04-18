@@ -1,8 +1,35 @@
 .app {
+  .linksFlex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+  }
+
   .link {
     cursor: pointer;
     font-size: 16px;
     text-decoration: none;
+    font-weight: normal;
+  }
+
+  .linkDeconnect {
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    color: #a40f0f;
+  }
+
+  .myAccount {
+    display: flex;
+    cursor: pointer;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgb(71, 38, 88);
+    background-color: #ccc4fa;
+    width: 38px;
   }
 
   .link + .link {
@@ -10,6 +37,13 @@
   }
 }
 .navBar {
+  height: 77px;
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid black;
+}
+
+.logo {
+  max-width: 130px;
+  cursor: pointer;
 }

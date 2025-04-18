@@ -4,8 +4,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +35,7 @@ public class AuthController {
 	 */
 	@PostMapping(value = { "/auth/register", "/auth/register/" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GetUserDTO> register(@RequestBody CreateUserDTO createUserDTO) {
-		// Créer l'utilisateur
-		userService.createUser(createUserDTO);
-		// Récupérer l'utilisateur créé pour le renvoyer dans la réponse
-		GetUserDTO createdUser = userService.getByEmail(createUserDTO.getEmail());
+		GetUserDTO createdUser = userService.createUser(createUserDTO); // Créer l'utilisateur
 		return ResponseEntity.ok(createdUser);
 	}
 
@@ -73,15 +68,6 @@ public class AuthController {
 		String email = jwtUtil.extractClaim(token, claims -> claims.get("email", String.class));
 		// Récupérer l'utilisateur depuis la base de données
 		return ResponseEntity.ok(userService.getByEmail(email));
-	}
-
-	/**
-	 * GET /api/user/{id} we dont create a UserController just for one route ?
-	 */
-	@GetMapping("/user/{id}")
-	public ResponseEntity<GetUserDTO> getUserById(@PathVariable Long id) {
-		return userService.getById(id).map(ResponseEntity::ok)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouvé"));
 	}
 
 }

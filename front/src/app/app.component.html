@@ -1,13 +1,10 @@
 <div class="app">
-  <mat-toolbar
-    color="primary"
-    class="navBar d-flex justify-content-between align-items-center"
-  >
-    <span class="link" routerLink="home">MDD</span>
-    <div *ngIf="$isLogged() | async; else notLogged">
+  <mat-toolbar color="white" class="navBar d-flex justify-content-between align-items-center">
+    <img routerLink="home" class="logo" src="../assets/logo_p6.png" alt="" />
+    <div class="linksFlex" *ngIf="$isLogged() | async; else notLogged">
+      <span (click)="logout()" class="linkDeconnect">Se déconnecter</span>
       <span routerLink="home" class="link">Accueil</span>
-      <span routerLink="me" class="link">Account</span>
-      <span (click)="logout()" class="link">Logout</span>
+      <span routerLink="me" class="myAccount"></span>
     </div>
     <ng-template #notLogged>
       <div>

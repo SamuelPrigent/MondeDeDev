@@ -10,6 +10,7 @@ import com.openclassrooms.mddapi.repository.UserRepository; // repo
 // dto
 import com.openclassrooms.mddapi.dto.CreateUserDTO;
 import com.openclassrooms.mddapi.dto.GetUserDTO;
+import com.openclassrooms.mddapi.dto.UpdateUserDTO;
 // spring security
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // hash password
 import org.springframework.http.HttpStatus;
@@ -47,16 +48,42 @@ public class UserService {
 		return new GetUserDTO(savedUser);
 	}
 
+	// get by id
 	public Optional<GetUserDTO> getById(Long id) {
 		return userRepository.findById(id).map(user -> new GetUserDTO(user));
 	}
 
+	// get by email
 	public GetUserDTO getByEmail(String email) {
 		return findByEmail(email).map(user -> new GetUserDTO(user))
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouvé"));
 	}
 
+	// dependency for getByEmail
 	public Optional<User> findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	// Update by id
+	public GetUserDTO updateUserById(Long id, UpdateUserDTO updateUserDTO) {
+		updateUserDTO.validate(); // Validation des données
+		// check is user exist
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouvé"));
+
+		// Mettre à jour les champs de l'utilisateur saisis
+		if (updateUserDTO.getEmail() != null) {
+			user.setEmail(updateUserDTO.getEmail());
+		}
+		if (updateUserDTO.getUsername() != null) {
+			user.setUsername(updateUserDTO.getUsername());
+		}
+		if (updateUserDTO.getPassword() != null && updateUserDTO.getPassword() != "") {
+			user.setPassword(passwordEncoder.encode(updateUserDTO.getPassword()));
+		}
+		// Sauvegarder l'utilisateur mis à jour
+		User updatedUser = userRepository.save(user);
+
+		return new GetUserDTO(updatedUser);
 	}
 }

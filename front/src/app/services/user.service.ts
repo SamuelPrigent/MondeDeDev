@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../interfaces/user.interface';
+import { PutUserRequest } from '../interfaces/putUserRequest.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,11 +12,10 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getById(id: string): Observable<User> {
-    return this.httpClient.get<User>(
-      `${environment.baseUrl}${this.pathService}/${id}`
+  public putById(id: number, putUserRequest: PutUserRequest): Observable<PutUserRequest> {
+    return this.httpClient.put<PutUserRequest>(
+      `${environment.baseUrl}${this.pathService}/${id}`,
+      putUserRequest
     );
   }
-
-  // Réaliser : putById
 }
