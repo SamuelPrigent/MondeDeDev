@@ -1,36 +1,36 @@
 package com.openclassrooms.mddapi.dto;
 
 public class LoginRequestDTO {
-    private String email;
-    private String password;
+	private String userId;
+	private String password;
 
-    public LoginRequestDTO() {
-    }
+	public LoginRequestDTO() {
+	}
 
-    public LoginRequestDTO(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+	public LoginRequestDTO(String userId, String password) {
+		this.userId = userId;
+		this.password = password;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getUserId() {
+		return userId;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    @Override
-    public String toString() {
-        return "LoginRequestDTO{email='" + email + "', passwordLength=" + (password != null ? password.length() : 0)
-                + '}';
-    }
+	@Override
+	public String toString() {
+		return "LoginRequestDTO{userId='" + userId + "', passwordLength=" + (password != null ? password.length() : 0)
+				+ '}';
+	}
 }

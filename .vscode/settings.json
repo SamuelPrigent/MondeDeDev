@@ -3,6 +3,8 @@
   "java.configuration.updateBuildConfiguration": "interactive",
   "java.format.settings.url": ".vscode/java-formatter.xml",
   "[java]": {
-    "editor.tabSize": 2
+    "editor.tabSize": 3,
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false
   }
 }

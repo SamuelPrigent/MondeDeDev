@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Configuration
 @EnableJpaAuditing
 public class JpaAuditingConfiguration {
-    // Cette classe vide active l'audit JPA qui permet d'utiliser
-    // les annotations @CreatedDate et @UpdateTimestamp
+	// Cette classe vide active l'audit JPA qui permet d'utiliser
+	// les annotations @CreatedDate et @UpdateTimestamp
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -6,12 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  constructor(private titleService: Title) {}
 
-  ngOnInit(): void {}
-
-  sayHello() {
-    console.clear();
-    console.log('Hello !');
+  ngOnInit(): void {
+    this.titleService.setTitle('MDD');
   }
 }

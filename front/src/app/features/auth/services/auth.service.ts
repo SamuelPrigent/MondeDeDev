@@ -6,6 +6,7 @@ import { RegisterRequest } from '../interfaces/registerRequest.interface';
 // login
 import { LoginRequest } from '../interfaces/loginRequest.interface';
 import { SessionInformation } from '../../../../app/interfaces/sessionInformation.interface';
+import { User } from 'src/app/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +28,9 @@ export class AuthService {
       `${environment.baseUrl}${this.pathService}/login`,
       loginRequest
     );
+  }
+
+  public me(): Observable<User> {
+    return this.httpClient.get<User>(`${environment.baseUrl}${this.pathService}/me`);
   }
 }

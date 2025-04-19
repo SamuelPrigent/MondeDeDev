@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LoginRequest } from '../../interfaces/loginRequest.interface';
 import { AuthService } from '../../services/auth.service';
-// import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
-// import { SessionService } from 'src/app/services/session.service';
+import { SessionService } from 'src/app/services/session.service';
+import { SessionInformation } from 'src/app/interfaces/sessionInformation.interface';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -18,33 +19,41 @@ export class LoginComponent implements OnDestroy {
   private subscription = new Subscription();
 
   public form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    userId: ['', [Validators.required, Validators.min(3)]],
     password: ['', [Validators.required, Validators.min(3)]],
   });
 
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router //   private sessionService: SessionService
+    private router: Router,
+    private sessionService: SessionService,
+    private titleService: Title
   ) {}
 
   public submit(): void {
     const loginRequest = this.form.value as LoginRequest;
     this.subscription.add(
       this.authService.login(loginRequest).subscribe({
-        next: () =>
-          //   response: SessionInformation
-          {
-            // this.sessionService.logIn(response); // for guards unauth, auth
-            // TODO persist token (interceptor ? ) // for interceptor (qui embarque le token pour les request)
-            this.router.navigate(['/home']);
-          },
-        //   error: error => this.onError = true,
+        next: (response: SessionInformation) => {
+          // update sessionService avec la réponse de authService for state utilisés par les (guards : unauth, auth)
+          this.sessionService.logIn(response);
+          this.router.navigate(['/articles']);
+        },
+        error: () => (this.onError = true),
       })
     );
   }
 
+  ngOnInit(): void {
+    this.titleService.setTitle('Connexion');
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public back(): void {
+    window.history.back();
   }
 }
