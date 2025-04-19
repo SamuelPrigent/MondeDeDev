@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 // components
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
@@ -17,16 +18,11 @@ const materialModules = [
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatToolbarModule,
 ];
 
 @NgModule({
   declarations: [RegisterComponent, LoginComponent],
-  imports: [
-    AuthRoutingModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ...materialModules,
-  ],
+  imports: [AuthRoutingModule, CommonModule, FormsModule, ReactiveFormsModule, ...materialModules],
 })
 export class AuthModule {}

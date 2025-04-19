@@ -22,11 +22,11 @@ export class SessionService {
     return this.isLoggedSubject.asObservable();
   }
 
-  public logIn(user: SessionInformation): void {
-    this.sessionInformation = user;
+  public logIn(sessionInfo: SessionInformation): void {
+    this.sessionInformation = sessionInfo;
     this.isLogged = true;
     // Save token in localStorage
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(sessionInfo));
     this.next();
   }
 

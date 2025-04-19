@@ -18,7 +18,7 @@ export class LoginComponent implements OnDestroy {
   private subscription = new Subscription();
 
   public form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    userId: ['', [Validators.required, Validators.min(3)]],
     password: ['', [Validators.required, Validators.min(3)]],
   });
 
@@ -36,7 +36,7 @@ export class LoginComponent implements OnDestroy {
         next: (response: SessionInformation) => {
           // update sessionService avec la réponse de authService for state utilisés par les (guards : unauth, auth)
           this.sessionService.logIn(response);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/articles']);
         },
         error: () => (this.onError = true),
       })
@@ -45,5 +45,9 @@ export class LoginComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public back(): void {
+    window.history.back();
   }
 }

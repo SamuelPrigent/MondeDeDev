@@ -42,9 +42,8 @@ public class AuthController {
 	@PostMapping({ "/auth/login", "/auth/login/" })
 	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
 		try {
-			// Authentification
 			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+					new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword()));
 
 			// get user details
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();

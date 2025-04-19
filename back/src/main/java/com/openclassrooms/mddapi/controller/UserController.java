@@ -4,10 +4,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 // dto
 import com.openclassrooms.mddapi.dto.GetUserDTO;
+import com.openclassrooms.mddapi.dto.LoginResponseDTO;
 import com.openclassrooms.mddapi.dto.UpdateUserDTO;
 // service / security / exception
 import com.openclassrooms.mddapi.service.UserService;
@@ -23,6 +28,9 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtUtil;
 
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
 	/**
 	 * GET /api/user/{id}
 	 */
@@ -36,8 +44,8 @@ public class UserController {
 	 * PUT /api/user/{id}
 	 */
 	@PutMapping("/user/{id}")
-	public ResponseEntity<GetUserDTO> putUserById(@PathVariable Long id, @RequestHeader("Authorization") String token,
-			@RequestBody UpdateUserDTO updateUserDTO) {
+	public ResponseEntity<LoginResponseDTO> putUserById(@PathVariable Long id,
+			@RequestHeader("Authorization") String token, @RequestBody UpdateUserDTO updateUserDTO) {
 		// Extraire l'email de l'utilisateur à partir du token
 		String email = jwtUtil.extractUsername(token.substring(7));
 		System.out.println("Email extrait: " + email);
@@ -63,7 +71,15 @@ public class UserController {
 		GetUserDTO updatedUser = userService.updateUserById(id, updateUserDTO);
 		System.out.println("Utilisateur mis à jour: " + updatedUser);
 
-		// Retourner la réponse
-		return ResponseEntity.ok(updatedUser);
+		// Renvoie d'un nouveau token mis à jour
+		// Connecter le user avec ce genre de code : 
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(updateUserDTO.getEmail(), updateUserDTO.getPassword()));
+
+		// get user details
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		String newToken = jwtUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new LoginResponseDTO(newToken));
 	}
 }

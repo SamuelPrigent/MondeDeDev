@@ -5,32 +5,35 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email"),
-		@UniqueConstraint(columnNames = "username") })
+@Table(name = "articles")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class Article {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull
-	@Size(max = 20)
-	private String username;
-
-	@NotNull
-	@Size(max = 50)
-	@Email
-	private String email;
-
-	@NotNull
 	@Size(max = 120)
-	private String password;
+	private String title;
+
+	@NotNull
+	@Size(max = 1000)
+	private String description;
+
+	@NotNull
+	@Size(max = 20)
+	private String theme;
+
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "author_id", nullable = false)
+	private User author;
+	// private Long author;
 
 	@CreatedDate
 	@Column(name = "created_at", updatable = false)
@@ -46,46 +49,47 @@ public class User {
 	private LocalDateTime updatedAt;
 
 	// Constructeurs
-	public User() {
+	public Article() {
 	}
 
-	public User(String username, String email, String password) {
-		this.username = username;
-		this.email = email;
-		this.password = password;
+	public Article(String title, String description, String theme, User author) {
+		this.title = title;
+		this.description = description;
+		this.theme = theme;
+		this.author = author;
 	}
 
 	// Getters et Setters
-	public Long getId() {
-		return id;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getEmail() {
-		return email;
+	public User getAuthor() {
+		return author;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getTheme() {
+		return theme;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setTheme(String theme) {
+		this.theme = theme;
 	}
 
 	public LocalDateTime getCreatedAt() {

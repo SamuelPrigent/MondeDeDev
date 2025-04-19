@@ -11,16 +11,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 // for put user
-import { ReactiveFormsModule } from '@angular/forms'; // Importez ReactiveFormsModule
-import { MatInputModule } from '@angular/material/input'; // Importez MatInputModule
-import { MatFormFieldModule } from '@angular/material/form-field'; // Importez MatFormFieldModule
+import { ReactiveFormsModule } from '@angular/forms'; // for Put User (in /me)
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 // utils
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 // component
-import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
+import { AppComponent } from './app.component';
 import { MeComponent } from './components/me/me.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
+import { ThemesComponent } from './pages/themes/themes.component';
 
 const materialModule = [
   MatButtonModule,
@@ -33,14 +35,14 @@ const materialModule = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, MeComponent],
+  declarations: [AppComponent, MeComponent, ArticlesComponent, ThemesComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     MatButtonModule,
-    ReactiveFormsModule, // for put user
+    ReactiveFormsModule,
     ...materialModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],

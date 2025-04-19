@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../interfaces/user.interface';
 import { AuthService } from 'src/app/features/auth/services/auth.service'; // get Id & user info
 import { UserService } from '../../services/user.service'; // putById
 import { PutUserRequest } from 'src/app/interfaces/putUserRequest.interface';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-me',
@@ -17,12 +18,13 @@ export class MeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private sessionService: SessionService
   ) {
     this.userForm = this.fb.group({
-      username: [''],
-      email: [''],
-      password: [''],
+      username: ['', [Validators.required, Validators.min(3), Validators.max(20)]],
+      email: ['', [Validators.required, Validators.min(3), Validators.email, Validators.max(50)]],
+      password: ['', [Validators.required, Validators.min(3), Validators.max(20)]],
     });
   }
 
@@ -46,8 +48,9 @@ export class MeComponent implements OnInit {
         password: formValue.password,
       };
       this.userService.putById(this.user.id, putUserRequest).subscribe(
-        updatedUser => {
-          console.log('Utilisateur mis à jour:', updatedUser);
+        token => {
+          //   console.log('New token:', token);
+          this.sessionService.logIn(token);
         },
         error => {
           console.error("Erreur lors de la mise à jour de l'utilisateur:", error);

@@ -31,16 +31,18 @@ public class UpdateUserDTO {
 
 	// Validation
 	public void validate() {
-		// if (email == null || email.trim().isEmpty()) {
-		// 	throw new IllegalArgumentException("L'email est obligatoire");
-		// }
-		// if (username == null || username.trim().isEmpty()) {
-		// 	throw new IllegalArgumentException("Le nom utilisateur est obligatoire");
-		// }
+		// need all to reconnect user with new user
+		if (email == null || email.trim().isEmpty()) {
+			throw new IllegalArgumentException("L'email est obligatoire");
+		}
+		if (username == null || username.trim().isEmpty()) {
+			throw new IllegalArgumentException("Le nom d'utilisateur est obligatoire");
+		}
 		// password
-		// if (password == null || password.trim().isEmpty()) {
-		// 	throw new IllegalArgumentException("Le mot de passe est obligatoire");
-		// }
+		if (password == null || password.trim().isEmpty()) {
+			throw new IllegalArgumentException("Le mot de passe est obligatoire");
+		}
+
 		// 8 caractères
 		if (this.password != null && this.password != "") {
 			if (password.length() < 8) {
