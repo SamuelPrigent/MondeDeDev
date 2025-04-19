@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/features/auth/services/auth.service'; // ge
 import { UserService } from '../../services/user.service'; // putById
 import { PutUserRequest } from 'src/app/interfaces/putUserRequest.interface';
 import { SessionService } from 'src/app/services/session.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-me',
@@ -19,7 +20,8 @@ export class MeComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private titleService: Title
   ) {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.min(3), Validators.max(20)]],
@@ -29,6 +31,8 @@ export class MeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Profil utilisateur');
+    //
     this.authService.me().subscribe((user: User) => {
       this.user = user;
       this.userForm.patchValue({

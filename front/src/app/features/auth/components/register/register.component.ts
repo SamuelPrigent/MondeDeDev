@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { RegisterRequest } from '../../interfaces/registerRequest.interface';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,12 @@ export class RegisterComponent implements OnDestroy {
     password: ['', [Validators.required, Validators.min(3), Validators.max(40)]],
   });
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private router: Router,
+    private titleService: Title
+  ) {}
 
   public submit(): void {
     const registerRequest = this.form.value as RegisterRequest;
@@ -30,6 +36,10 @@ export class RegisterComponent implements OnDestroy {
         error: _ => (this.onError = true),
       })
     );
+  }
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Inscription');
   }
 
   ngOnDestroy(): void {
