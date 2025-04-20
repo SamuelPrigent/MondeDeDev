@@ -35,7 +35,7 @@ public class ArticleService {
 
 	// Create Article
 	public GetArticleDTO createArticle(CreateArticleDTO request) {
-		// TO DO il faudra check que le token correspond bien à l'id pour qui on créé le post ?
+		// TO DO il faudra check que le token correspond bien à l'id pour qui on créé le post ??
 		// validation des données
 		request.validate();
 		// get author via authorId
@@ -46,7 +46,7 @@ public class ArticleService {
 		article.setTitle(request.getTitle());
 		article.setDescription(request.getDescription());
 		article.setTheme(request.getTheme());
-		article.setAuthor(author); // objet User
+		article.setAuthor(author); // objet User filtré par le DTO => id
 		// save
 		Article savedArticle = articleRepository.save(article);
 		return new GetArticleDTO(savedArticle);

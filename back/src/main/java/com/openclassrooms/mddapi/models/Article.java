@@ -22,7 +22,8 @@ public class Article {
 	private String title;
 
 	@NotNull
-	@Size(max = 1000)
+	@Column(length = 1500)
+	@Size(max = 1500)
 	private String description;
 
 	@NotNull
@@ -60,6 +61,14 @@ public class Article {
 	}
 
 	// Getters et Setters
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}

@@ -1,10 +1,19 @@
-<div
-  style="
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  "
->
-  <h1>Page not found !</h1>
+<div class="containerNotFound">
+  <div
+    style="
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      line-height: normal;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 20px;
+    "
+  >
+    <div style="font-size: 100px; font-weight: 600; height: auto">404</div>
+    <div style="font-size: 16px; color: #424242; margin-bottom: 20px">
+      Oups.. Cette page n’existe pas.
+    </div>
+    <button mat-raised-button color="primary" [routerLink]="['/articles']">Accueil</button>
+  </div>
 </div>

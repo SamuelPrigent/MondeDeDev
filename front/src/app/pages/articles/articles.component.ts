@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { ArticleService } from 'src/app/services/article.service';
+import { Article } from 'src/app/interfaces/article.interface';
 
 @Component({
   selector: 'app-articles',
@@ -7,14 +10,16 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./articles.component.scss'],
 })
 export class ArticlesComponent implements OnInit {
-  constructor(private titleService: Title) {}
+  public articles$!: Observable<Article[]>;
+
+  constructor(private titleService: Title, private articleService: ArticleService) {}
 
   ngOnInit(): void {
+    // title
     this.titleService.setTitle('Articles');
+    // articles
+    this.articles$ = this.articleService.getArticles();
   }
 
-  sayHello() {
-    console.clear();
-    console.log('Hello !');
-  }
+  toggleSortByDate(): void {}
 }

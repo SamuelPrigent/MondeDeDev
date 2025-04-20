@@ -1,0 +1,36 @@
+<div class="containerArticles">
+  <div class="articleDetailBloc" *ngIf="article$ | async as article">
+    <div (click)="back()" class="articleDetailArrowBack">
+      <img src="../../../assets/arrowBack.svg" alt="" />
+    </div>
+    <div class="articleDetailTopInfo">
+      <div class="articleDetailTitle">{{ article.title }}</div>
+      <div class="articleDetailTheme">{{ article.theme }}</div>
+    </div>
+    <div class="articleDetailDesc">{{ article.description }}</div>
+    <div style="display: flex; justify-content: space-between; margin-top: 20px">
+      <div class="authorSection">
+        <div class="authorCircle"><img src="../../../assets/account.svg" alt="" /></div>
+        <div class="articleDetailAuthor">{{ article.authorUsername }}</div>
+      </div>
+      <div class="articleDetailDate">Posté le {{ article.created_at }}</div>
+    </div>
+  </div>
+  <div class="articleDetailComment">Commentaires</div>
+  <!--
+    <div>Show comments if exists</div>
+-->
+  <div style="display: flex; gap: 10px; width: 100%">
+    <mat-form-field appearance="fill" style="width: 100%">
+      <textarea
+        style="line-height: 1.4"
+        matInput
+        placeholder="Ajouter un commentaire..."
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+    <div class="submitButton">
+      <img src="../../../assets/send.svg" alt="envoyer mail" />
+    </div>
+  </div>
+</div>

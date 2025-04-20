@@ -1,5 +1,33 @@
-<div class="center">
-  <img style="height: 130px" src="/assets/logo_p6.png" alt="logo" />
-  <h1>Articles</h1>
-  <button mat-raised-button color="primary" (click)="sayHello()">Salut</button>
+<div class="containerArticles">
+  <div class="buttonSection">
+    <button mat-raised-button color="primary" [routerLink]="['/createArticle']">
+      Créer un article
+    </button>
+    <div class="sortButton">
+      <div>Trier par</div>
+      <img class="sortSvg" src="../../../assets/Arrow.svg" alt="fleches" />
+    </div>
+  </div>
+  <div class="articleBloc">
+    <a
+      *ngFor="let article of articles$ | async"
+      class="articleElement"
+      routerLink="/articles/{{ article.id }}"
+    >
+      <div style="display: flex; justify-content: space-between">
+        <div class="articleTitle">{{ article.title }}</div>
+        <div class="articleTheme">{{ article.theme }}</div>
+      </div>
+      <div class="articleDesc">{{ article.description }}</div>
+      <div class="bottomSection">
+        <div class="authorSection">
+          <div class="authorCircle">
+            <img src="../../../assets/account.svg" alt="" />
+          </div>
+          <div class="articleAuthor">{{ article.authorUsername }}</div>
+        </div>
+        <div class="articleDate">Posté le {{ article.created_at }}</div>
+      </div>
+    </a>
+  </div>
 </div>

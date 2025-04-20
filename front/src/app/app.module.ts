@@ -21,8 +21,11 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { HomeComponent } from './pages/home/home.component';
 import { AppComponent } from './app.component';
 import { MeComponent } from './components/me/me.component';
-import { ArticlesComponent } from './pages/articles/articles.component';
 import { ThemesComponent } from './pages/themes/themes.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
+import { ArticleDetailComponent } from './pages/articleDetail/articleDetail.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { CreateArticleComponent } from './pages/createArticle/createArticle.component';
 
 const materialModule = [
   MatButtonModule,
@@ -35,7 +38,16 @@ const materialModule = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, MeComponent, ArticlesComponent, ThemesComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    MeComponent,
+    ArticlesComponent,
+    ThemesComponent,
+    HomeComponent,
+    ArticleDetailComponent,
+    NotFoundComponent,
+    CreateArticleComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

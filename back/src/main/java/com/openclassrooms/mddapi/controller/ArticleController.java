@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.openclassrooms.mddapi.dto.GetArticleDTO;
 import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.service.ArticleService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.MediaType;
 
 @RestController
@@ -43,4 +45,14 @@ public class ArticleController {
 		return ResponseEntity.ok(createdArticle);
 	}
 
+	@GetMapping({ "/articles/{id}", "/articles/{id}/" })
+	public ResponseEntity<GetArticleDTO> getArticlesById(@PathVariable Long id) {
+		Optional<Article> articleOpt = articleService.getById(id);
+		if (articleOpt.isPresent()) {
+			GetArticleDTO dto = new GetArticleDTO(articleOpt.get());
+			return ResponseEntity.ok(dto);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 }

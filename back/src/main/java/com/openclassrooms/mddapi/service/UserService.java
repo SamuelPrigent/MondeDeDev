@@ -86,4 +86,13 @@ public class UserService {
 
 		return new GetUserDTO(updatedUser);
 	}
+
+	public Long getUserId(String identifier) {
+		Optional<User> userOptional = findByEmail(identifier);
+		if (userOptional.isEmpty()) {
+			userOptional = userRepository.findByUsername(identifier);
+		}
+		return userOptional.map(User::getId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouvé"));
+	}
 }
