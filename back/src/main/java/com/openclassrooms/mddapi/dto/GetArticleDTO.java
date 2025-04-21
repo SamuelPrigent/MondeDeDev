@@ -2,9 +2,6 @@ package com.openclassrooms.mddapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.openclassrooms.mddapi.models.Article;
-import com.openclassrooms.mddapi.models.Comment;
-
-import java.util.List;
 
 public class GetArticleDTO {
 	private Long id;
@@ -13,7 +10,6 @@ public class GetArticleDTO {
 	private String theme;
 	private Long authorId;
 	private String authorUsername;
-	private List<Comment> comments;
 
 	@JsonProperty("created_at")
 	private String createdAt;
@@ -36,16 +32,6 @@ public class GetArticleDTO {
 		this.authorUsername = article.getAuthor().getUsername();
 		this.createdAt = article.getCreatedAt().toString();
 		this.updatedAt = article.getUpdatedAt().toString();
-		this.comments = article.getComments();
-	}
-
-	// Getters & Setters
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 
 	public String getAuthorUsername() {

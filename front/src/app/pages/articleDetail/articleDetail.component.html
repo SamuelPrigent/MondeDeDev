@@ -18,24 +18,30 @@
   </div>
   <div class="articleDetailComment">Commentaires</div>
   <div style="display: flex; flex-direction: column; gap: 10px">
-    <div class="commentBloc" *ngIf="article$ | async as article">
-      <div *ngFor="let oneComment of article.comments" class="commentElement">
-        <div class="commentUser">{{ usernameById(oneComment.userId) | async }}</div>
-        <div class="commentText">{{ oneComment.comment }}</div>
+    <div class="commentBloc" *ngIf="comments$ | async as comments">
+      <div *ngFor="let comment of comments" class="commentElement">
+        <div class="commentUser">{{ comment.username }}</div>
+        <div class="commentText">{{ comment.comment }}</div>
       </div>
     </div>
   </div>
-  <!--
-    <div>Show comments if exists</div>
--->
-  <div style="display: flex; gap: 10px; width: 100%">
+  <form
+    [formGroup]="commentForm"
+    (ngSubmit)="submitComment()"
+    style="display: flex; gap: 10px; width: 100%"
+  >
     <mat-form-field appearance="fill" style="width: 100%">
-      <textarea class="inputComment" matInput placeholder="Ajouter un commentaire..."></textarea>
+      <textarea
+        class="inputComment"
+        matInput
+        placeholder="Ajouter un commentaire..."
+        formControlName="comment"
+      ></textarea>
     </mat-form-field>
     <div style="padding-bottom: 1.34375em; box-sizing: border-box">
-      <div class="submitButton">
-        <img src="../../../assets/send.svg" alt="envoyer mail" />
-      </div>
+      <button class="submitButton" type="submit" [disabled]="commentForm.invalid">
+        <img src="../../../assets/send.svg" alt="envoyer commentaire" />
+      </button>
     </div>
-  </div>
+  </form>
 </div>

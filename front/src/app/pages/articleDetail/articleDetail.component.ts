@@ -5,10 +5,12 @@ import { ArticleService } from 'src/app/services/article.service';
 import { Article } from 'src/app/interfaces/article.interface';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
-import { shareReplay } from 'rxjs/operators';
+import { getComment } from 'src/app/interfaces/getComment.interface';
+import { postComment } from 'src/app/interfaces/postComment.interface';
+import { SessionService } from 'src/app/services/session.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-articleDetail',
@@ -17,15 +19,21 @@ import { shareReplay } from 'rxjs/operators';
 })
 export class ArticleDetailComponent implements OnInit {
   public article$!: Observable<Article | null>;
-  public usernames: { [userId: number]: Observable<string> } = {};
+  public comments$!: Observable<getComment[]>;
+  public commentForm: FormGroup;
 
   constructor(
     private titleService: Title,
     private articleService: ArticleService,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService
-  ) {}
+    private sessionService: SessionService,
+    private fb: FormBuilder
+  ) {
+    this.commentForm = this.fb.group({
+      comment: ['', [Validators.required, Validators.maxLength(1000)]],
+    });
+  }
 
   ngOnInit(): void {
     // title
@@ -33,12 +41,15 @@ export class ArticleDetailComponent implements OnInit {
     // articles
     const articleId = +this.route.snapshot.paramMap.get('id')!;
     if (articleId != null && articleId != undefined) {
+      // get article
       this.article$ = this.articleService.getArticleById(articleId).pipe(
         catchError(e => {
           this.router.navigate(['/articles']);
           return of(null);
         })
       );
+      //   get comments
+      this.comments$ = this.articleService.getCommentsByArticleId(articleId);
     }
   }
 
@@ -46,14 +57,31 @@ export class ArticleDetailComponent implements OnInit {
     window.history.back();
   }
 
-  public usernameById(id: number): Observable<string> {
-    if (!this.usernames[id]) {
-      this.usernames[id] = this.userService.getById(id).pipe(
-        map(user => user.username),
-        // évite de refaire la requête lorsque plusieurs async s'abonnent
-        shareReplay(1)
-      );
+  public postComment(id: number, post: postComment) {
+    this.articleService.postCommentsForAnArticle(id, post).subscribe({
+      next: result => {
+        // Action à faire après succès, ex: rafraîchir les commentaires
+        this.comments$ = this.articleService.getCommentsByArticleId(id);
+      },
+      error: err => {
+        console.error("Erreur lors de l'envoi du commentaire", err);
+      },
+    });
+  }
+
+  public submitComment(): void {
+    if (this.commentForm.invalid) {
+      return;
     }
-    return this.usernames[id];
+
+    const comment = this.commentForm.value.comment.trim();
+    const userId = this.sessionService.sessionInformation?.userId;
+    if (!userId) return;
+
+    const articleId = +this.route.snapshot.paramMap.get('id')!;
+    const post: postComment = { userId, comment };
+
+    this.postComment(articleId, post);
+    this.commentForm.reset();
   }
 }

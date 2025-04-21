@@ -9,12 +9,12 @@
 }
 
 .articleDetailArrowBack {
+  //   top: -17px;
+  //   left: -77px;
+  top: 11px;
+  left: -67px;
   cursor: pointer;
   position: absolute;
-  top: -17px;
-  left: -77px;
-  top: 6px; // test
-  left: -67px; // test
   aspect-ratio: 1/1;
   width: 55px;
   display: flex;
@@ -96,6 +96,7 @@
   justify-content: center;
   aspect-ratio: 1/1;
   background-color: #ededed;
+  border: 0px solid transparent;
   border-radius: 4px;
   width: 65px;
   height: 100%;
@@ -165,4 +166,12 @@
   min-height: 35px;
   font-size: 16px;
   padding-bottom: 10px;
+}
+.mat-form-field-invalid {
+  .mat-form-field-wrapper,
+  .mat-form-field-underline,
+  .mat-form-field-flex {
+    border-color: inherit !important;
+    color: inherit !important;
+  }
 }

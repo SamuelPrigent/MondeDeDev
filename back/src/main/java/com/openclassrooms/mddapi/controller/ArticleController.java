@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.dto.CreateArticleDTO;
 import com.openclassrooms.mddapi.dto.GetArticleDTO;
+import com.openclassrooms.mddapi.dto.GetCommentDTO;
+import com.openclassrooms.mddapi.dto.PostCommentDTO;
+
 import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.service.ArticleService;
+import com.openclassrooms.mddapi.models.Comment;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.MediaType;
@@ -23,11 +27,6 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-
-	// @GetMapping({ "/articles", "/articles/" })
-	// public ResponseEntity<GetArticlesDTO> getArticles() {
-	// 	return ResponseEntity.ok(new GetArticlesDTO(articleService.getArticles()));
-	// }
 
 	@GetMapping({ "/articles", "/articles/" })
 	public ResponseEntity<List<GetArticleDTO>> getAllArticles() {
@@ -54,5 +53,22 @@ public class ArticleController {
 		} else {
 			return ResponseEntity.notFound().build();
 		}
+	}
+
+	// get comments by article ID
+	@GetMapping({ "/articles/{id}/comments", "/articles/{id}/comments/" })
+	public ResponseEntity<List<GetCommentDTO>> getCommentsByArticle(@PathVariable Long id) {
+		System.out.println(">>> [DEBUG] GET /articles/" + id + "/comments appelé");
+		List<GetCommentDTO> comments = articleService.getCommentsByArticle(id);
+		System.out.println(">>> [DEBUG] Nombre de commentaires trouvés : " + comments.size());
+		return ResponseEntity.ok(comments);
+	}
+
+	// post comment by article ID
+	@PostMapping({ "/articles/{id}/comments", "/articles/{id}/comments/" })
+	public ResponseEntity<GetCommentDTO> postComment(@PathVariable("id") Long articleId,
+			@RequestBody PostCommentDTO dto) {
+		Comment saved = articleService.postComment(articleId, dto);
+		return ResponseEntity.ok(new GetCommentDTO(saved));
 	}
 }
