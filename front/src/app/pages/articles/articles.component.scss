@@ -36,6 +36,14 @@
   margin: auto;
 }
 
+.sortSvg2 {
+  height: fit-content;
+  box-sizing: border-box;
+  height: 60%;
+  margin: auto;
+  rotate: 180deg;
+}
+
 .articleBloc {
   display: grid;
   grid-template-columns: 1fr 1fr;

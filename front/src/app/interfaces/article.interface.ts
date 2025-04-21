@@ -5,6 +5,12 @@ export interface Article {
   theme: string;
   authorId: number;
   authorUsername: string;
+  comments: Comment[];
   created_at: string;
   updated_at: string;
+}
+
+interface Comment {
+  userId: number;
+  comment: string;
 }

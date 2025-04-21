@@ -3,39 +3,41 @@
     <img routerLink="" class="logo" src="../assets/logo_p6.png" alt="" />
   </mat-toolbar>
 </div>
-<button style="position: absolute" mat-icon-button (click)="back()">
-  <mat-icon>arrow_back</mat-icon>
-</button>
-<div class="login d-flex justify-content-center align-items-center h-full">
-  <mat-card-header class="d-flex justify-content-center align-items-center">
-    <mat-card-title>Se connecter</mat-card-title>
-  </mat-card-header>
-  <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
-    <mat-card-content class="d-flex flex-column">
-      <mat-form-field class="formContainer">
-        <input matInput placeholder="Email ou Nom d'utilisateur" formControlName="userId" />
-      </mat-form-field>
-      <mat-form-field class="w-100">
-        <input
-          matInput
-          [type]="hide ? 'password' : 'text'"
-          placeholder="Password"
-          formControlName="password"
-        />
-        <button
-          mat-icon-button
-          matSuffix
-          (click)="hide = !hide"
-          [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide"
-        >
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-      </mat-form-field>
-    </mat-card-content>
-    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-      Submit
-    </button>
-    <p *ngIf="onError" class="error">An error occurred</p>
-  </form>
+<div class="centeredContainerLogin">
+  <button style="position: absolute" mat-icon-button (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class="login d-flex justify-content-center align-items-center h-full">
+    <mat-card-header class="d-flex justify-content-center align-items-center">
+      <mat-card-title>Se connecter</mat-card-title>
+    </mat-card-header>
+    <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-card-content class="d-flex flex-column">
+        <mat-form-field class="formContainer">
+          <input matInput placeholder="Email ou Nom d'utilisateur" formControlName="userId" />
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            placeholder="Password"
+            formControlName="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-card-content>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Se connecter
+      </button>
+      <p *ngIf="onError" class="error">An error occurred</p>
+    </form>
+  </div>
 </div>

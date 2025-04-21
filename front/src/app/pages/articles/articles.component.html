@@ -3,9 +3,13 @@
     <button mat-raised-button color="primary" [routerLink]="['/createArticle']">
       Créer un article
     </button>
-    <div class="sortButton">
-      <div>Trier par</div>
-      <img class="sortSvg" src="../../../assets/Arrow.svg" alt="fleches" />
+    <div class="sortButton" (click)="toggleSortByDate()" aria-label="Trier par date">
+      Trier par date
+      <img
+        [class]="sortOrder$.value === 'asc' ? 'sortSvg' : 'sortSvg2'"
+        src="../../../assets/Arrow.svg"
+        alt="fleches"
+      />
     </div>
   </div>
   <div class="articleBloc">
@@ -26,7 +30,7 @@
           </div>
           <div class="articleAuthor">{{ article.authorUsername }}</div>
         </div>
-        <div class="articleDate">Posté le {{ article.created_at }}</div>
+        <div class="articleDate">Posté le {{ article.created_at | dateFormat }}</div>
       </div>
     </a>
   </div>

@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "articles")
@@ -34,7 +35,6 @@ public class Article {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "author_id", nullable = false)
 	private User author;
-	// private Long author;
 
 	@CreatedDate
 	@Column(name = "created_at", updatable = false)
@@ -48,6 +48,11 @@ public class Article {
 	@UpdateTimestamp
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
+
+	@ElementCollection
+	@CollectionTable(name = "article_comments", joinColumns = @JoinColumn(name = "article_id"))
+	@Column(name = "comment")
+	private List<Comment> comments;
 
 	// Constructeurs
 	public Article() {
@@ -116,4 +121,13 @@ public class Article {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
 }

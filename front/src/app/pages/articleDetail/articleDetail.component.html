@@ -13,24 +13,29 @@
         <div class="authorCircle"><img src="../../../assets/account.svg" alt="" /></div>
         <div class="articleDetailAuthor">{{ article.authorUsername }}</div>
       </div>
-      <div class="articleDetailDate">Posté le {{ article.created_at }}</div>
+      <div class="articleDetailDate">Posté le {{ article.created_at | dateFormat }}</div>
     </div>
   </div>
   <div class="articleDetailComment">Commentaires</div>
+  <div style="display: flex; flex-direction: column; gap: 10px">
+    <div class="commentBloc" *ngIf="article$ | async as article">
+      <div *ngFor="let oneComment of article.comments" class="commentElement">
+        <div class="commentUser">{{ usernameById(oneComment.userId) | async }}</div>
+        <div class="commentText">{{ oneComment.comment }}</div>
+      </div>
+    </div>
+  </div>
   <!--
     <div>Show comments if exists</div>
 -->
   <div style="display: flex; gap: 10px; width: 100%">
     <mat-form-field appearance="fill" style="width: 100%">
-      <textarea
-        style="line-height: 1.4"
-        matInput
-        placeholder="Ajouter un commentaire..."
-        rows="4"
-      ></textarea>
+      <textarea class="inputComment" matInput placeholder="Ajouter un commentaire..."></textarea>
     </mat-form-field>
-    <div class="submitButton">
-      <img src="../../../assets/send.svg" alt="envoyer mail" />
+    <div style="padding-bottom: 1.34375em; box-sizing: border-box">
+      <div class="submitButton">
+        <img src="../../../assets/send.svg" alt="envoyer mail" />
+      </div>
     </div>
   </div>
 </div>

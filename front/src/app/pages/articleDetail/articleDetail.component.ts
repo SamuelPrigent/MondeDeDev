@@ -5,8 +5,10 @@ import { ArticleService } from 'src/app/services/article.service';
 import { Article } from 'src/app/interfaces/article.interface';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-articleDetail',
@@ -15,12 +17,14 @@ import { of } from 'rxjs';
 })
 export class ArticleDetailComponent implements OnInit {
   public article$!: Observable<Article | null>;
+  public usernames: { [userId: number]: Observable<string> } = {};
 
   constructor(
     private titleService: Title,
     private articleService: ArticleService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -40,5 +44,16 @@ export class ArticleDetailComponent implements OnInit {
 
   public back(): void {
     window.history.back();
+  }
+
+  public usernameById(id: number): Observable<string> {
+    if (!this.usernames[id]) {
+      this.usernames[id] = this.userService.getById(id).pipe(
+        map(user => user.username),
+        // évite de refaire la requête lorsque plusieurs async s'abonnent
+        shareReplay(1)
+      );
+    }
+    return this.usernames[id];
   }
 }

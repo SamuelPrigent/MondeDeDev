@@ -17,6 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 // utils
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+// pipe
+import { DateFormatPipe } from './pipe/date-format.pipe';
 // component
 import { HomeComponent } from './pages/home/home.component';
 import { AppComponent } from './app.component';
@@ -47,6 +49,7 @@ const materialModule = [
     ArticleDetailComponent,
     NotFoundComponent,
     CreateArticleComponent,
+    DateFormatPipe,
   ],
   imports: [
     BrowserModule,
