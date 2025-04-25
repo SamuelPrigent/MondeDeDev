@@ -1,14 +1,15 @@
 package com.openclassrooms.mddapi.dto;
 
-import com.openclassrooms.mddapi.models.Article;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.format.DateTimeFormatter;
+import com.openclassrooms.mddapi.models.Article;
 
 public class GetArticleDTO {
+	private Long id;
 	private String title;
 	private String description;
 	private String theme;
 	private Long authorId;
+	private String authorUsername;
 
 	@JsonProperty("created_at")
 	private String createdAt;
@@ -22,27 +23,33 @@ public class GetArticleDTO {
 
 	// Constructeur à partir d'une entité Article
 	public GetArticleDTO(Article article) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		this.id = article.getId();
 		this.title = article.getTitle();
 		this.description = article.getDescription();
 		this.theme = article.getTheme();
 		this.authorId = article.getAuthor().getId();
-
-		// Gestion des dates nulles
-		if (article.getCreatedAt() != null) {
-			this.createdAt = article.getCreatedAt().format(formatter);
-		} else {
-			this.createdAt = "non défini";
-		}
-
-		if (article.getUpdatedAt() != null) {
-			this.updatedAt = article.getUpdatedAt().format(formatter);
-		} else {
-			this.updatedAt = "non défini";
-		}
+		this.authorUsername = article.getAuthor().getUsername();
+		this.createdAt = article.getCreatedAt().toString();
+		this.updatedAt = article.getUpdatedAt().toString();
 	}
 
-	// Getters
+	public String getAuthorUsername() {
+		return authorUsername;
+	}
+
+	public void setAuthorUsername(String authorUsername) {
+		this.authorUsername = authorUsername;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -90,5 +97,4 @@ public class GetArticleDTO {
 	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
 }

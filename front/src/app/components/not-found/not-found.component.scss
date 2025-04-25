@@ -1,3 +1,12 @@
-.not-found {
-    width: 500px;
+.containerNotFound {
+  padding-top: 120px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 77px);
+}
+
+.notFoundImg {
+  height: 400px;
+  margin: 0 auto;
 }

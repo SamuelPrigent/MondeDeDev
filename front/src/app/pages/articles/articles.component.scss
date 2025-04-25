@@ -1,9 +1,150 @@
-.center {
-  height: 100vh;
+.containerArticles {
+  min-height: calc(100vh - 77px);
   display: flex;
-  justify-content: start;
-  align-items: center;
   flex-direction: column;
-  padding-top: 20vh;
+  padding: 60px 40px;
   box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.buttonSection {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 2px;
+  box-sizing: border-box;
+}
+
+.sortButton {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 6px;
+  font-size: 16px;
+  padding: 0px 2px;
+  width: fit-content;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortSvg {
+  height: fit-content;
+  box-sizing: border-box;
+  height: 60%;
+  margin: auto;
+}
+
+.sortSvg2 {
+  height: fit-content;
+  box-sizing: border-box;
+  height: 60%;
+  margin: auto;
+  rotate: 180deg;
+}
+
+.articleBloc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin: 40px auto 60px;
+  width: 100%;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.articleElement {
+  text-decoration: none;
+  color: #0b0b0b;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  border-radius: 8px;
+  padding: 30px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.articleTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.articleTheme {
+  background-color: #e1e1e1;
+  color: black;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.articleTheme::first-letter {
+  text-transform: capitalize;
+}
+
+.articleDesc {
+  display: -webkit-box;
+  margin: 10px 0 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.articleAuthor {
+  font-size: 14px;
+}
+
+.articleDate {
+  font-size: 14px;
+}
+
+.authorSection {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.authorCircle {
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  width: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //   background-color: #e1e1e1;
+  background-color: #e4ccf0;
+}
+
+.authorCircle > img {
+  filter: brightness(0.2);
+  width: 16px;
+}
+
+.bottomSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto 0 0;
+}
+
+@media screen and (max-width: 900px) {
+  .articleBloc {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin: 40px auto 60px;
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 625px) {
+  .articleBloc {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin: 40px auto 60px;
+    width: 100%;
+  }
 }

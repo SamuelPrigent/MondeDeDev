@@ -5,9 +5,10 @@ import { AuthGuard } from './guards/auth.guard';
 // components
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MeComponent } from './components/me/me.component';
-import { ArticlesComponent } from './pages/articles/articles.component';
 import { ThemesComponent } from './pages/themes/themes.component';
-// import { HomeComponent } from './pages/home/home.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
+import { ArticleDetailComponent } from './pages/articleDetail/articleDetail.component';
+import { CreateArticleComponent } from './pages/createArticle/createArticle.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,17 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: ArticlesComponent,
   },
+  {
+    path: 'articles/:id',
+    canActivate: [AuthGuard],
+    component: ArticleDetailComponent,
+  },
+  {
+    path: 'createArticle',
+    canActivate: [AuthGuard],
+    component: CreateArticleComponent,
+  },
+
   {
     path: 'themes',
     canActivate: [AuthGuard],

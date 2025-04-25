@@ -27,19 +27,36 @@
     aspect-ratio: 1/1;
     align-items: center;
     justify-content: center;
-    border: 2px solid rgb(71, 38, 88);
-    background-color: #ccc4fa;
-    width: 38px;
+    // border: 2px solid rgb(71, 38, 88);
+    background-color: #e4ccf0;
+    width: 37px;
   }
 }
+
 .navBar {
-  height: 77px;
+  width: 100%;
+  height: 74px;
   display: flex;
+  justify-content: center;
+  box-shadow: 0 0 4px 0 #0000005c;
+  //   border-bottom: 1px solid black;
+}
+
+.insideNavBar {
+  display: flex;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px;
+  height: 74px;
   justify-content: space-between;
-  border-bottom: 1px solid black;
 }
 
 .logo {
   max-width: 130px;
   cursor: pointer;
+}
+
+.myAccountImg {
+  height: 21px;
+  filter: brightness(0.2);
 }

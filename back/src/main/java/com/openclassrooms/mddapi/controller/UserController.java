@@ -80,6 +80,9 @@ public class UserController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		String newToken = jwtUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new LoginResponseDTO(newToken));
+		// getUserId to send it in response
+		Long userId = userService.getUserId(userDetails.getUsername());
+
+		return ResponseEntity.ok(new LoginResponseDTO(newToken, userId));
 	}
 }

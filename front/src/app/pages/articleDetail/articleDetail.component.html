@@ -1,0 +1,47 @@
+<div class="containerArticles">
+  <div class="articleDetailBloc" *ngIf="article$ | async as article">
+    <div (click)="back()" class="articleDetailArrowBack">
+      <img src="../../../assets/arrowBack.svg" alt="" />
+    </div>
+    <div class="articleDetailTopInfo">
+      <div class="articleDetailTitle">{{ article.title }}</div>
+      <div class="articleDetailTheme">{{ article.theme }}</div>
+    </div>
+    <div class="articleDetailDesc">{{ article.description }}</div>
+    <div style="display: flex; justify-content: space-between; margin-top: 20px">
+      <div class="authorSection">
+        <div class="authorCircle"><img src="../../../assets/account.svg" alt="" /></div>
+        <div class="articleDetailAuthor">{{ article.authorUsername }}</div>
+      </div>
+      <div class="articleDetailDate">Posté le {{ article.created_at | dateFormat }}</div>
+    </div>
+  </div>
+  <div class="articleDetailComment">Commentaires</div>
+  <div style="display: flex; flex-direction: column; gap: 10px">
+    <div class="commentBloc" *ngIf="comments$ | async as comments">
+      <div *ngFor="let comment of comments" class="commentElement">
+        <div class="commentUser">{{ comment.username }}</div>
+        <div class="commentText">{{ comment.comment }}</div>
+      </div>
+    </div>
+  </div>
+  <form
+    [formGroup]="commentForm"
+    (ngSubmit)="submitComment()"
+    style="display: flex; gap: 10px; width: 100%"
+  >
+    <mat-form-field appearance="fill" style="width: 100%">
+      <textarea
+        class="inputComment"
+        matInput
+        placeholder="Ajouter un commentaire..."
+        formControlName="comment"
+      ></textarea>
+    </mat-form-field>
+    <div style="padding-bottom: 1.34375em; box-sizing: border-box">
+      <button class="submitButton" type="submit" [disabled]="commentForm.invalid">
+        <img src="../../../assets/send.svg" alt="envoyer commentaire" />
+      </button>
+    </div>
+  </form>
+</div>

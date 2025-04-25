@@ -51,6 +51,6 @@ export class SessionService {
     }
   }
 
-  // à implémenter potentiellement si une erreur 403 token expiré sur une requêtes
+  // à implémenter erreur 403 token expiré sur une requêtes
   // on appelle sessionSerivce pour Logout()
 }

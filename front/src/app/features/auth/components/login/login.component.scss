@@ -7,6 +7,11 @@
   flex-direction: column;
 }
 
+.centeredContainerLogin {
+  margin: 1.5rem auto;
+  max-width: 800px;
+}
+
 .mat-card-header {
   display: flex;
   justify-content: center;
@@ -17,7 +22,7 @@
 }
 
 .formContainer {
-  width: 300px;
+  width: 370px;
 }
 
 .w-100 {
@@ -50,10 +55,10 @@
 }
 
 .navBar {
-  height: 77px;
+  height: 74px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid black;
+  box-shadow: 0 0 4px 0 #0000005c;
 }
 
 .logo {

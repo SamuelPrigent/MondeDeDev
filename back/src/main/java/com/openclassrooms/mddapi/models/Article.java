@@ -22,7 +22,8 @@ public class Article {
 	private String title;
 
 	@NotNull
-	@Size(max = 1000)
+	@Column(length = 1500)
+	@Size(max = 1500)
 	private String description;
 
 	@NotNull
@@ -33,7 +34,6 @@ public class Article {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "author_id", nullable = false)
 	private User author;
-	// private Long author;
 
 	@CreatedDate
 	@Column(name = "created_at", updatable = false)
@@ -60,6 +60,14 @@ public class Article {
 	}
 
 	// Getters et Setters
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -107,4 +115,5 @@ public class Article {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
 }

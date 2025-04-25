@@ -49,7 +49,10 @@ public class AuthController {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			String token = jwtUtil.generateToken(userDetails);
 
-			return ResponseEntity.ok(new LoginResponseDTO(token));
+			// getUserId to send it in response
+			Long userId = userService.getUserId(userDetails.getUsername());
+
+			return ResponseEntity.ok(new LoginResponseDTO(token, userId));
 		} catch (Exception e) {
 			System.out.println("Erreur lors de la connexion: " + e.getMessage());
 			e.printStackTrace();

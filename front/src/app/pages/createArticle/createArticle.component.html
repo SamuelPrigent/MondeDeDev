@@ -1,0 +1,41 @@
+<div class="m3">
+  <div>
+    <mat-card-title style="display: flex; align-items: center; margin: 55px auto 40px">
+      <button style="position: absolute" mat-icon-button (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2 style="margin: 0; text-align: center; width: 100%">Créer un nouvel article</h2>
+    </mat-card-title>
+    <mat-card-content class="containerUserInfo">
+      <form class="formPutRequest" [formGroup]="articleForm" (ngSubmit)="createArticle()">
+        <mat-form-field appearance="fill" class="w100">
+          <mat-label>Theme</mat-label>
+          <input matInput formControlName="theme" required />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w100">
+          <mat-label>Titre de l'article</mat-label>
+          <input matInput formControlName="title" required />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w100">
+          <mat-label>Contenu de l'article</mat-label>
+          <textarea
+            class="contentCreateArticle"
+            matInput
+            formControlName="description"
+            rows="5"
+            required
+          ></textarea>
+        </mat-form-field>
+        <button
+          style="margin: auto"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="articleForm.invalid"
+        >
+          Créer
+        </button>
+      </form>
+    </mat-card-content>
+  </div>
+</div>

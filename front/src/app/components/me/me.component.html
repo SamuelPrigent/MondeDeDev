@@ -1,39 +1,37 @@
 <div class="m3">
-  <div>
-    <mat-card-title style="display: flex; align-items: center; margin: 55px auto 40px">
-      <button style="position: absolute" mat-icon-button (click)="back()">
-        <mat-icon>arrow_back</mat-icon>
+  <mat-card-title style="display: flex; align-items: center; margin: 55px auto 40px">
+    <button style="position: absolute" mat-icon-button (click)="back()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2 style="margin: 0; text-align: center; width: 100%">Profil utilisateur</h2>
+  </mat-card-title>
+  <mat-card-content class="containerUserInfo">
+    <!--form-->
+    <form class="formPutRequest" [formGroup]="userForm" (ngSubmit)="putUser()">
+      <mat-form-field appearance="fill">
+        <mat-label>Nom utilisateur</mat-label>
+        <input matInput formControlName="username" required />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput formControlName="password" required />
+      </mat-form-field>
+      <button
+        style="margin: auto"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="userForm.invalid"
+      >
+        Sauvegarder
       </button>
-      <h2 style="margin: 0; text-align: center; width: 100%">Profil utilisateur</h2>
-    </mat-card-title>
-    <mat-card-content class="containerUserInfo">
-      <!--form-->
-      <form class="formPutRequest" [formGroup]="userForm" (ngSubmit)="putUser()">
-        <mat-form-field appearance="fill">
-          <mat-label>Nom utilisateur</mat-label>
-          <input matInput formControlName="username" required />
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" required />
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Mot de passe</mat-label>
-          <input matInput formControlName="password" required />
-        </mat-form-field>
-        <button
-          style="margin: auto"
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="userForm.invalid"
-        >
-          Sauvegarder
-        </button>
-      </form>
-      <!--form-->
-    </mat-card-content>
-    <div style="height: 1px; width: 100%; margin: 40px auto 40px; background: black"></div>
-    <h2 style="text-align: center">Abonnements</h2>
-  </div>
+    </form>
+    <!--form-->
+  </mat-card-content>
+  <div style="height: 1px; width: 100%; margin: 40px auto 40px; background: black"></div>
+  <h2 style="text-align: center">Abonnements</h2>
 </div>
