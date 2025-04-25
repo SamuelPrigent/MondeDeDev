@@ -130,3 +130,21 @@
   align-items: center;
   margin: auto 0 0;
 }
+
+@media screen and (max-width: 900px) {
+  .articleBloc {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin: 40px auto 60px;
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 625px) {
+  .articleBloc {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin: 40px auto 60px;
+    width: 100%;
+  }
+}

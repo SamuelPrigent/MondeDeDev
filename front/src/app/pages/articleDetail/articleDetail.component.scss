@@ -175,3 +175,37 @@
     color: inherit !important;
   }
 }
+
+@media screen and (max-width: 1100px) {
+  .containerArticles {
+    padding: 50px 80px 110px;
+  }
+}
+
+@media screen and (max-width: 625px) {
+  .containerArticles {
+    padding: 92px 45px 110px;
+  }
+
+  .articleDetailArrowBack {
+    top: -55px;
+    left: -15px;
+    // test
+    top: -51px;
+    left: 0px;
+    background-color: #7451eb;
+    border-radius: 8px;
+    height: 35px;
+  }
+  //   test
+  .articleDetailArrowBack > img {
+    height: 26px;
+    filter: invert(1);
+  }
+}
+
+@media screen and (max-width: 470px) {
+  .containerArticles {
+    padding: 92px 30px 110px;
+  }
+}

@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { getComment } from 'src/app/interfaces/getComment.interface';
 import { postComment } from 'src/app/interfaces/postComment.interface';
 import { SessionService } from 'src/app/services/session.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-articleDetail',
@@ -31,7 +31,7 @@ export class ArticleDetailComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.commentForm = this.fb.group({
-      comment: ['', [Validators.required, Validators.maxLength(1000)]],
+      comment: ['', [() => null]], // champ présent, toujours valide
     });
   }
 
