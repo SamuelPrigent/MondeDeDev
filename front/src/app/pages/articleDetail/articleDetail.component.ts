@@ -44,7 +44,7 @@ export class ArticleDetailComponent implements OnInit {
       // get article
       this.article$ = this.articleService.getArticleById(articleId).pipe(
         catchError(e => {
-          this.router.navigate(['/articles']);
+          this.router.navigate(['/404']);
           return of(null);
         })
       );

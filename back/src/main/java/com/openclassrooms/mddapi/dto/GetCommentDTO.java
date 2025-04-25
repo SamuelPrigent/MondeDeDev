@@ -12,7 +12,7 @@ public class GetCommentDTO {
 	public GetCommentDTO(Comment comment) {
 		this.id = comment.getId();
 		this.comment = comment.getComment();
-		this.userId = comment.getUser().getId();
+		this.userId = comment.getUser().getId(); // TODO (logique)
 		this.username = comment.getUser().getUsername();
 	}
 

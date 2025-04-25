@@ -18,20 +18,21 @@
       class="articleElement"
       routerLink="/articles/{{ article.id }}"
     >
-      <div style="display: flex; justify-content: space-between">
+      <div class="artitleTopSection">
         <div class="articleTitle">{{ article.title }}</div>
         <div class="articleTheme">{{ article.theme }}</div>
       </div>
-      <div class="articleDesc">{{ article.description }}</div>
       <div class="bottomSection">
-        <div class="authorSection">
-          <div class="authorCircle">
-            <img src="../../../assets/account.svg" alt="" />
-          </div>
-          <div class="articleAuthor">{{ article.authorUsername }}</div>
-        </div>
         <div class="articleDate">Posté le {{ article.created_at | dateFormat }}</div>
+        <div class="authorSection">
+          <div class="articleAuthor">{{ article.authorUsername }}</div>
+          <!--
+            <div class="authorCircle">
+                <img src="../../../assets/account.svg" alt="" />
+            </div>
+        --></div>
       </div>
+      <div class="articleDesc">{{ article.description }}</div>
     </a>
   </div>
 </div>

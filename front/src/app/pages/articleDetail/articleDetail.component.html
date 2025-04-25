@@ -5,16 +5,18 @@
     </div>
     <div class="articleDetailTopInfo">
       <div class="articleDetailTitle">{{ article.title }}</div>
+    </div>
+    <div class="articleBottomSection">
+      <div class="articleDetailDate">Posté le {{ article.created_at | dateFormat }}</div>
+      <div class="authorSection">
+        <!--
+    <div class="authorCircle"><img src="../../../assets/account.svg" alt="" /></div>
+-->
+        <div class="articleDetailAuthor">{{ article.authorUsername }}</div>
+      </div>
       <div class="articleDetailTheme">{{ article.theme }}</div>
     </div>
     <div class="articleDetailDesc">{{ article.description }}</div>
-    <div style="display: flex; justify-content: space-between; margin-top: 20px">
-      <div class="authorSection">
-        <div class="authorCircle"><img src="../../../assets/account.svg" alt="" /></div>
-        <div class="articleDetailAuthor">{{ article.authorUsername }}</div>
-      </div>
-      <div class="articleDetailDate">Posté le {{ article.created_at | dateFormat }}</div>
-    </div>
   </div>
   <div class="articleDetailComment">Commentaires</div>
   <div style="display: flex; flex-direction: column; gap: 10px">
