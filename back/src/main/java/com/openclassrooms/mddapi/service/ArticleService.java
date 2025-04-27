@@ -18,6 +18,9 @@ import com.openclassrooms.mddapi.models.Comment;
 import java.util.Optional;
 import java.util.List;
 
+import com.openclassrooms.mddapi.security.JwtUtil;
+import com.openclassrooms.mddapi.dto.GetThemesDTO;
+
 @Service
 public class ArticleService {
 
@@ -30,6 +33,12 @@ public class ArticleService {
 	@Autowired
 	private CommentRepository commentRepository;
 
+	@Autowired
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	private ThemeUserService themeUserService;
+
 	// Récupérer un article par son id
 	public Optional<Article> getById(Long id) {
 		return articleRepository.findById(id);
@@ -38,6 +47,23 @@ public class ArticleService {
 	// Récupérer tous les articles
 	public List<Article> getArticles() {
 		return articleRepository.findAll();
+	}
+
+	// Récupérer les articles auxquels l'utilisateur est abonné (logique complète)
+	public List<GetArticleDTO> getSubscribedArticles(String token) {
+		// Extraire l'email du token
+		String email = jwtUtil.extractEmail(token);
+		Optional<User> userOpt = userRepository.findByEmail(email);
+		User user = userOpt.orElse(null);
+		if (user == null) {
+			return List.of();
+		}
+		// Récupérer les thèmes auxquels l'utilisateur est abonné
+		List<GetThemesDTO> userThemes = themeUserService.getThemesByUserId(user.getId());
+		List<String> themeNames = userThemes.stream().map(GetThemesDTO::getThemeName).toList();
+		// Récupérer les articles filtrés par nom de thème et transformer en DTO
+		return articleRepository.findAll().stream().filter(article -> themeNames.contains(article.getTheme()))
+				.map(GetArticleDTO::new).toList();
 	}
 
 	// Create Article

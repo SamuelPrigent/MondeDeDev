@@ -1,5 +1,8 @@
 package com.openclassrooms.mddapi.controller;
 
+import java.util.Optional;
+import org.springframework.web.bind.annotation.RequestHeader;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +21,6 @@ import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.service.ArticleService;
 import com.openclassrooms.mddapi.models.Comment;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.http.MediaType;
 
 @RestController
@@ -38,7 +40,13 @@ public class ArticleController {
 		return ResponseEntity.ok(articlesDTO);
 	}
 
-	// => TODO doit récupérer seulement les articles lié aux abonnements de l'utilisateur
+	@GetMapping({ "/SubscribedArticles", "/SubscribedArticles/" })
+	public ResponseEntity<List<GetArticleDTO>> getSubscribedArticles(@RequestHeader("Authorization") String authHeader) {
+		// Extraire le token
+		String token = authHeader.replace("Bearer ", "");
+		List<GetArticleDTO> articlesDTO = articleService.getSubscribedArticles(token);
+		return ResponseEntity.ok(articlesDTO);
+	}
 
 	@PostMapping(value = { "/articles", "/articles/" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GetArticleDTO> createArticle(@RequestBody CreateArticleDTO createArticleDTO) {
