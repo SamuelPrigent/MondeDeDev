@@ -1,3 +1,17 @@
-<div class="center">
-  <h1>Themes</h1>
+<div class="containerArticles">
+  <div class="articleBloc">
+    <div *ngFor="let theme of themes$ | async" class="articleElement">
+      <div class="articleTitle">{{ theme.themeName }}</div>
+      <div class="articleDesc">{{ theme.themeDescription }}</div>
+      <button
+        class="subscribeButton"
+        mat-raised-button
+        color="primary"
+        (click)="subscribe(theme.id)"
+        [disabled]="theme.userIsSubscribed"
+      >
+        {{ theme.userIsSubscribed ? 'Déjà suivi' : "S'abonner" }}
+      </button>
+    </div>
+  </div>
 </div>

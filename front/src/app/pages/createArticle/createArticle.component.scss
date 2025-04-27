@@ -41,7 +41,6 @@
   display: flex;
   gap: 16px;
   flex-direction: column;
-  align-items: start;
   margin-bottom: 10px;
 }
 
@@ -139,10 +138,22 @@
 }
 
 button {
-  margin-top: 20px;
+  //   margin-top: 20px;
   align-self: center;
 }
 
 .contentCreateArticle {
   line-height: 1.5;
+}
+
+@media screen and (max-width: 800px) {
+  .m3 {
+    padding: 0 60px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .m3 {
+    padding: 0 30px;
+  }
 }

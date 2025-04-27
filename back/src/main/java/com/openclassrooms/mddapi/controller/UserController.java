@@ -48,11 +48,9 @@ public class UserController {
 			@RequestHeader("Authorization") String token, @RequestBody UpdateUserDTO updateUserDTO) {
 		// Extraire l'email de l'utilisateur à partir du token
 		String email = jwtUtil.extractUsername(token.substring(7));
-		System.out.println("Email extrait: " + email);
 
 		// Récupérer l'utilisateur par email
 		GetUserDTO userFromToken = userService.getByEmail(email);
-		System.out.println("Utilisateur récupéré par email: " + userFromToken);
 
 		// Vérifier si l'ID extrait correspond à l'ID de la requête
 		if (!userFromToken.getId().equals(id)) {

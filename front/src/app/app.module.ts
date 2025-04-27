@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 // for put user
 import { ReactiveFormsModule } from '@angular/forms'; // for Put User (in /me)
 import { MatInputModule } from '@angular/material/input';
@@ -22,7 +24,7 @@ import { DateFormatPipe } from './pipe/date-format.pipe';
 // component
 import { HomeComponent } from './pages/home/home.component';
 import { AppComponent } from './app.component';
-import { MeComponent } from './components/me/me.component';
+import { MeComponent } from './pages/me/me.component';
 import { ThemesComponent } from './pages/themes/themes.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { ArticleDetailComponent } from './pages/articleDetail/articleDetail.component';
@@ -37,6 +39,8 @@ const materialModule = [
   MatToolbarModule,
   MatInputModule,
   MatFormFieldModule,
+  MatSelectModule,
+  MatOptionModule,
 ];
 
 @NgModule({

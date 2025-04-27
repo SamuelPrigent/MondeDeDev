@@ -5,16 +5,24 @@ import com.openclassrooms.mddapi.models.Comment;
 public class GetCommentDTO {
 	private Long id;
 	private String comment;
-	private Long userId;
 	private String username;
+	// private Long userId;
 
 	// Constructeur à partir de Comment
 	public GetCommentDTO(Comment comment) {
 		this.id = comment.getId();
 		this.comment = comment.getComment();
-		this.userId = comment.getUser().getId();
 		this.username = comment.getUser().getUsername();
+		// this.userId = comment.getUser().getId(); // TODO (logique)
 	}
+
+	// public Long getUserId() {
+	// 	return userId;
+	// }
+
+	// public void setUserId(Long userId) {
+	// 	this.userId = userId;
+	// }
 
 	public Long getId() {
 		return id;
@@ -22,10 +30,6 @@ public class GetCommentDTO {
 
 	public String getComment() {
 		return comment;
-	}
-
-	public Long getUserId() {
-		return userId;
 	}
 
 	public String getUsername() {
@@ -38,10 +42,6 @@ public class GetCommentDTO {
 
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 	public void setUsername(String username) {

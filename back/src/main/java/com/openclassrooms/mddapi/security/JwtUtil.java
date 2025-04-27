@@ -58,6 +58,12 @@ public class JwtUtil {
 		return extractClaim(token, Claims::getSubject);
 	}
 
+	// Méthode utilitaire pour extraire l'email du token
+	public String extractEmail(String token) {
+		Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+		return (String) claims.get("email");
+	}
+
 	private Date extractExpiration(String token) {
 		return extractClaim(token, Claims::getExpiration);
 	}

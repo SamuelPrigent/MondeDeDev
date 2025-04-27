@@ -38,6 +38,8 @@ public class ArticleController {
 		return ResponseEntity.ok(articlesDTO);
 	}
 
+	// => TODO doit récupérer seulement les articles lié aux abonnements de l'utilisateur
+
 	@PostMapping(value = { "/articles", "/articles/" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GetArticleDTO> createArticle(@RequestBody CreateArticleDTO createArticleDTO) {
 		GetArticleDTO createdArticle = articleService.createArticle(createArticleDTO); // Créer l'utilisateur
@@ -58,9 +60,7 @@ public class ArticleController {
 	// get comments by article ID
 	@GetMapping({ "/articles/{id}/comments", "/articles/{id}/comments/" })
 	public ResponseEntity<List<GetCommentDTO>> getCommentsByArticle(@PathVariable Long id) {
-		System.out.println(">>> [DEBUG] GET /articles/" + id + "/comments appelé");
 		List<GetCommentDTO> comments = articleService.getCommentsByArticle(id);
-		System.out.println(">>> [DEBUG] Nombre de commentaires trouvés : " + comments.size());
 		return ResponseEntity.ok(comments);
 	}
 

@@ -20,7 +20,6 @@ export class ArticlesComponent implements OnInit {
     // title
     this.titleService.setTitle('Articles');
     // articles
-    // this.articles$ = this.articleService.getArticles();
     this.articles$ = this.sortOrder$.pipe(
       switchMap(order =>
         this.articleService.getArticles().pipe(
