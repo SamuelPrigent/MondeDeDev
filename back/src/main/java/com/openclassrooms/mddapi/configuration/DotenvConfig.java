@@ -25,14 +25,14 @@ public class DotenvConfig {
 	static {
 		// Code exécuté avant TOUT le reste de l'application
 		try {
-			System.out.println("Chargement initial des variables d'environnement...");
+			// System.out.println("Chargement initial des variables d'environnement...");
 			File envFile = new File("back/.env");
 			if (!envFile.exists()) {
 				envFile = new File("./.env");
 			}
 
 			if (envFile.exists()) {
-				System.out.println("Fichier .env trouvé à: " + envFile.getAbsolutePath());
+				// System.out.println("Fichier .env trouvé à: " + envFile.getAbsolutePath());
 				Dotenv dotenv = Dotenv.configure().directory(envFile.getParent()).load();
 
 				// Stocker les valeurs pour les utiliser plus tard
@@ -40,7 +40,7 @@ public class DotenvConfig {
 					envProperties.setProperty(e.getKey(), e.getValue());
 					// Définir aussi comme propriété système pour un accès immédiat
 					System.setProperty(e.getKey(), e.getValue());
-					System.out.println("Variable définie: " + e.getKey() + "=" + e.getValue());
+					// System.out.println("Variable définie: " + e.getKey() + "=" + e.getValue());
 				});
 			} else {
 				System.out.println("ATTENTION: Fichier .env non trouvé!");
