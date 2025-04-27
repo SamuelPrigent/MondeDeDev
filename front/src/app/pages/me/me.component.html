@@ -21,7 +21,7 @@
         <input matInput formControlName="password" required />
       </mat-form-field>
       <button
-        style="margin: auto"
+        class="subscribeButton"
         mat-raised-button
         color="primary"
         type="submit"
@@ -32,6 +32,32 @@
     </form>
     <!--form-->
   </mat-card-content>
-  <div style="height: 1px; width: 100%; margin: 40px auto 40px; background: black"></div>
-  <h2 style="text-align: center">Abonnements</h2>
+  <!--abonnements-->
+  <div
+    class="separator"
+    style="
+      display: flex;
+      width: 100%;
+      height: 2px;
+      border-radius: 4px;
+      background-color: black;
+      margin: 50px auto 30px;
+    "
+  ></div>
+  <h2 style="margin-bottom: 20px; text-align: center">Abonnements</h2>
+  <div class="articleBloc">
+    <div *ngFor="let theme of themes$ | async" class="articleElement">
+      <div class="articleTitle">{{ theme.themeName }}</div>
+      <div class="articleDesc">{{ theme.themeDescription }}</div>
+      <button
+        class="unsubscribeButton"
+        mat-raised-button
+        color="accent"
+        (click)="unsubscribe(theme.id)"
+      >
+        Se désabonner
+      </button>
+    </div>
+  </div>
+  <!--abonnements-->
 </div>

@@ -4,7 +4,7 @@ import { UnauthGuard } from './guards/unauth.guard';
 import { AuthGuard } from './guards/auth.guard';
 // components
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { MeComponent } from './components/me/me.component';
+import { MeComponent } from './pages/me/me.component';
 import { ThemesComponent } from './pages/themes/themes.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { ArticleDetailComponent } from './pages/articleDetail/articleDetail.component';

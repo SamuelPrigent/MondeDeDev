@@ -1,11 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Theme } from '../interfaces/theme.interface';
-// import { CreateArticle } from '../interfaces/createArticle.interface';
-// import { getComment } from '../interfaces/getComment.interface';
-// import { postComment } from '../interfaces/postComment.interface';
+import { ThemeSubInfo } from '../interfaces/themeSubInfo.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,37 +13,35 @@ export class ThemeService {
 
   constructor(private httpClient: HttpClient) {}
 
+  // for account page (me.component)
+  public getThemesByUserId(userId: number): Observable<Theme[]> {
+    return this.httpClient.get<Theme[]>(`${environment.baseUrl}${this.pathService}/${userId}`);
+  }
+
   public getThemes(): Observable<Theme[]> {
     return this.httpClient.get<Theme[]>(`${environment.baseUrl}${this.pathService}`);
   }
 
-  //   public getArticleById(id: number): Observable<Article> {
-  //     return this.httpClient.get<Article>(`${environment.baseUrl}${this.pathService}/${id}`);
-  //   }
+  public getThemesSubsInfo(): Observable<ThemeSubInfo[]> {
+    return this.httpClient.get<ThemeSubInfo[]>(`${environment.baseUrl}${this.pathService}SubsInfo`);
+  }
 
-  //   public postArticle(article: CreateArticle): Observable<Article> {
-  //     const headers = new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //     });
-  //     return this.httpClient.post<Article>(
-  //       `${environment.baseUrl}${this.pathService}/`,
-  //       JSON.stringify(article),
-  //       { headers: headers }
-  //     );
-  //   }
+  // Abonnement à un thème
+  public subscribeToTheme(themeId: number): Observable<ThemeSubInfo[]> {
+    return this.httpClient.post<ThemeSubInfo[]>(
+      `${environment.baseUrl}${this.pathService}/subscribe`,
+      {
+        themeId,
+      }
+    );
+  }
 
-  //   // get comment by article id
-  //   public getCommentsByArticleId(id: number): Observable<getComment[]> {
-  //     return this.httpClient.get<getComment[]>(
-  //       `${environment.baseUrl}${this.pathService}/${id}/comments`
-  //     );
-  //   }
-
-  //   // post comment
-  //   public postCommentsForAnArticle(id: number, comment: postComment): Observable<Comment> {
-  //     return this.httpClient.post<Comment>(
-  //       `${environment.baseUrl}${this.pathService}/${id}/comments`,
-  //       comment
-  //     );
-  //   }
+  // Désabonnement d'un thème
+  public unsubscribeFromTheme(themeId: number): Observable<Theme[]> {
+    return this.httpClient.request<Theme[]>(
+      'delete',
+      `${environment.baseUrl}${this.pathService}/unsubscribe`,
+      { body: { themeId } }
+    );
+  }
 }

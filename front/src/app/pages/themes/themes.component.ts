@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { Theme } from 'src/app/interfaces/theme.interface';
+import { ThemeSubInfo } from 'src/app/interfaces/themeSubInfo.interface';
 import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['./themes.component.scss'],
 })
 export class ThemesComponent implements OnInit {
-  public themes$!: Observable<Theme[]>;
+  public themes$!: Observable<ThemeSubInfo[]>;
 
   constructor(private titleService: Title, private themeService: ThemeService) {}
 
@@ -18,10 +18,11 @@ export class ThemesComponent implements OnInit {
     // title
     this.titleService.setTitle('Themes');
     // themes
-    this.themes$ = this.themeService.getThemes();
+    this.themes$ = this.themeService.getThemesSubsInfo();
   }
 
-  subscribe(): void {
-    console.log('Subscribe to theme :');
+  // subscribe to a theme with themeId => and refresh theme$ (with userIsSubscribed info)
+  subscribe(themeId: number): void {
+    this.themes$ = this.themeService.subscribeToTheme(themeId);
   }
 }

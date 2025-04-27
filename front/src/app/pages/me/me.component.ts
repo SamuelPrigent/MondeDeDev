@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service'; // putById
 import { PutUserRequest } from 'src/app/interfaces/putUserRequest.interface';
 import { SessionService } from 'src/app/services/session.service';
 import { Title } from '@angular/platform-browser';
+import { ThemeService } from 'src/app/services/theme.service';
+import { Observable } from 'rxjs';
+import { Theme } from 'src/app/interfaces/theme.interface';
 
 @Component({
   selector: 'app-me',
@@ -15,13 +18,15 @@ import { Title } from '@angular/platform-browser';
 export class MeComponent implements OnInit {
   public userForm: FormGroup;
   public user: User | undefined;
+  public themes$!: Observable<Theme[]>;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
     private sessionService: SessionService,
-    private titleService: Title
+    private titleService: Title,
+    private themeService: ThemeService
   ) {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.min(3), Validators.max(20)]],
@@ -32,7 +37,7 @@ export class MeComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Profil utilisateur');
-    //
+    // form values for edit account
     this.authService.me().subscribe((user: User) => {
       this.user = user;
       this.userForm.patchValue({
@@ -41,6 +46,11 @@ export class MeComponent implements OnInit {
         password: '',
       });
     });
+    // user themes
+    const userId = this.sessionService.sessionInformation?.userId;
+    if (userId) {
+      this.themes$ = this.themeService.getThemesByUserId(userId);
+    }
   }
 
   public putUser(): void {
@@ -67,5 +77,12 @@ export class MeComponent implements OnInit {
 
   public back(): void {
     window.history.back();
+  }
+
+  public unsubscribe(themeId: number) {
+    // à implémenter dans theme.service
+    console.log('unsubscribe =>', themeId);
+    // refresh themes while unsubscribe to the theme
+    this.themes$ = this.themeService.unsubscribeFromTheme(themeId);
   }
 }

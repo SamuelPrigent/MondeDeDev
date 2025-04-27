@@ -22,7 +22,7 @@ import { DateFormatPipe } from './pipe/date-format.pipe';
 // component
 import { HomeComponent } from './pages/home/home.component';
 import { AppComponent } from './app.component';
-import { MeComponent } from './components/me/me.component';
+import { MeComponent } from './pages/me/me.component';
 import { ThemesComponent } from './pages/themes/themes.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { ArticleDetailComponent } from './pages/articleDetail/articleDetail.component';

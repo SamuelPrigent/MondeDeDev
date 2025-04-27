@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.GetThemesDTO;
+import com.openclassrooms.mddapi.dto.GetThemesWithSubsInfoDTO;
 import com.openclassrooms.mddapi.dto.ThemeSubscribeDTO;
 import com.openclassrooms.mddapi.service.ThemeService;
 import com.openclassrooms.mddapi.service.ThemeUserService;
@@ -17,10 +18,17 @@ public class ThemeController {
 	@Autowired
 	private ThemeUserService themeUserService;
 
-	// GET /api/themes => used in a theme dropdown for article creation
+	// GET /api/themes (for dropdown possibility)
 	@GetMapping({ "/themes", "/themes/" })
 	public List<GetThemesDTO> getAllThemes() {
 		return themeService.getAllThemes();
+	}
+
+	// GET theme with Sub Info (theme page)
+	@GetMapping({ "/themesSubsInfo", "/themesSubsInfo/" })
+	public List<GetThemesWithSubsInfoDTO> getAllThemesWithSubsInfo(@RequestHeader("Authorization") String authHeader) {
+		String token = authHeader.replace("Bearer ", "");
+		return themeUserService.getAllThemesWithSubsInfo(token);
 	}
 
 	// GET /api/themes/{userId} => pour filtrer les thèmes d'un utilisateur
@@ -30,31 +38,42 @@ public class ThemeController {
 	}
 
 	// ==== Subscribe & Unsubscribe to a theme ====
-	// S'abonner à un thème via body JSON
-	@PostMapping("/themes/subscribe")
-	public ResponseEntity<String> subscribeTheme(@RequestBody ThemeSubscribeDTO body,
+
+	// Subscribe
+	// @PostMapping({ "/themes/subscribe", "/themes/subscribe/" })
+	// public ResponseEntity<List<GetThemesDTO>> subscribeThemeWithList(@RequestBody ThemeSubscribeDTO body,
+	// @RequestHeader("Authorization") String authHeader) {
+	// 	String token = authHeader.replace("Bearer ", "");
+	// 	boolean result = themeUserService.subscribeTheme(body.getThemeId(), token);
+	// 	if (result) {
+	// 		List<GetThemesDTO> themes = themeUserService.getThemesForMe(token);
+	// 		return ResponseEntity.ok(themes);
+	// 	}
+	// 	return ResponseEntity.badRequest().build();
+	// }
+
+	// Subscribe
+	@PostMapping({ "/themes/subscribe", "/themes/subscribe/" })
+	public ResponseEntity<List<GetThemesWithSubsInfoDTO>> subscribeThemeWithList(@RequestBody ThemeSubscribeDTO body,
 			@RequestHeader("Authorization") String authHeader) {
-		System.out
-				.println("[ThemeController][subscribeTheme] themeId=" + body.getThemeId() + ", authHeader=" + authHeader);
 		String token = authHeader.replace("Bearer ", "");
 		boolean result = themeUserService.subscribeTheme(body.getThemeId(), token);
-		System.out.println("[ThemeController][subscribeTheme] result=" + result);
-		if (result)
-			return ResponseEntity.ok("Subscribe to themeId : " + body.getThemeId());
-		return ResponseEntity.badRequest().body("Déjà abonné ou erreur");
+		if (result) {
+			return ResponseEntity.ok(themeUserService.getAllThemesWithSubsInfo(token));
+		}
+		return ResponseEntity.badRequest().build();
 	}
 
-	// Se désabonner d'un thème via body JSON
-	@DeleteMapping("/themes/unsubscribe")
-	public ResponseEntity<String> unsubscribeTheme(@RequestBody ThemeSubscribeDTO body,
+	// Unsubscribe
+	@DeleteMapping({ "/themes/unsubscribe", "/themes/unsubscribe/" })
+	public ResponseEntity<List<GetThemesDTO>> unsubscribeTheme(@RequestBody ThemeSubscribeDTO body,
 			@RequestHeader("Authorization") String authHeader) {
-		System.out
-				.println("[ThemeController][unsubscribeTheme] themeId=" + body.getThemeId() + ", authHeader=" + authHeader);
 		String token = authHeader.replace("Bearer ", "");
 		boolean result = themeUserService.unsubscribeTheme(body.getThemeId(), token);
-		System.out.println("[ThemeController][unsubscribeTheme] result=" + result);
-		if (result)
-			return ResponseEntity.ok("Unsubscribe from themeId : " + body.getThemeId());
-		return ResponseEntity.badRequest().body("Non abonné ou erreur");
+		if (result) {
+			List<GetThemesDTO> themes = themeUserService.getThemesForMe(token);
+			return ResponseEntity.ok(themes);
+		}
+		return ResponseEntity.badRequest().build();
 	}
 }
