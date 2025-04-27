@@ -14,6 +14,9 @@ public class Themes {
 	@Column(nullable = false, length = 1500)
 	private String themeName;
 
+	@Column(nullable = false, length = 3000)
+	private String themeDescription;
+
 	@ManyToMany
 	@JoinTable(name = "theme_user", joinColumns = @JoinColumn(name = "theme_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> users;
@@ -21,8 +24,9 @@ public class Themes {
 	public Themes() {
 	}
 
-	public Themes(String themeName, Set<User> users) {
+	public Themes(String themeName, String themeDescription, Set<User> users) {
 		this.themeName = themeName;
+		this.themeDescription = themeDescription;
 		this.users = users;
 	}
 
@@ -44,5 +48,13 @@ public class Themes {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	public String getThemeDescription() {
+		return themeDescription;
+	}
+
+	public void setThemeDescription(String themeDescription) {
+		this.themeDescription = themeDescription;
 	}
 }

@@ -1,8 +1,6 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.GetThemesDTO;
-import com.openclassrooms.mddapi.dto.GetUserThemesDTO;
-import com.openclassrooms.mddapi.dto.UserThemesListDTO;
 import com.openclassrooms.mddapi.dto.ThemeSubscribeDTO;
 import com.openclassrooms.mddapi.service.ThemeService;
 import com.openclassrooms.mddapi.service.ThemeUserService;
@@ -25,12 +23,10 @@ public class ThemeController {
 		return themeService.getAllThemes();
 	}
 
-	// GET /api/themes/{userId} => to filter content for a user
+	// GET /api/themes/{userId} => pour filtrer les thèmes d'un utilisateur
 	@GetMapping({ "/themes/{userId}", "/themes/{userId}/" })
-	public UserThemesListDTO getThemesByUserId(@PathVariable Long userId) {
-		List<GetUserThemesDTO> dtos = themeUserService.getThemesByUserId(userId);
-		List<String> themeNames = dtos.stream().map(GetUserThemesDTO::getThemeName).toList();
-		return new UserThemesListDTO(themeNames);
+	public List<GetThemesDTO> getThemesByUserId(@PathVariable Long userId) {
+		return themeUserService.getThemesByUserId(userId);
 	}
 
 	// ==== Subscribe & Unsubscribe to a theme ====

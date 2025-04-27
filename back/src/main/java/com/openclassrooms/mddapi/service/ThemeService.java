@@ -15,7 +15,8 @@ public class ThemeService {
 
 	public List<GetThemesDTO> getAllThemes() {
 		List<Themes> themes = themeRepository.findAll();
-		return themes.stream().map(theme -> new GetThemesDTO(theme.getId(), theme.getThemeName()))
+		return themes.stream()
+				.map(theme -> new GetThemesDTO(theme.getId(), theme.getThemeName(), theme.getThemeDescription()))
 				.collect(Collectors.toList());
 	}
 }
