@@ -10,7 +10,11 @@
       <form class="formPutRequest" [formGroup]="articleForm" (ngSubmit)="createArticle()">
         <mat-form-field appearance="fill" class="w100">
           <mat-label>Theme</mat-label>
-          <input matInput formControlName="theme" required />
+          <mat-select formControlName="theme" required>
+            <mat-option *ngFor="let theme of themesList$ | async" [value]="theme.themeName">
+              {{ theme.themeName }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field appearance="fill" class="w100">
           <mat-label>Titre de l'article</mat-label>
