@@ -49,9 +49,13 @@ public class ArticleController {
 	}
 
 	@PostMapping(value = { "/articles", "/articles/" }, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<GetArticleDTO> createArticle(@RequestBody CreateArticleDTO createArticleDTO) {
-		GetArticleDTO createdArticle = articleService.createArticle(createArticleDTO); // Créer l'utilisateur
-		return ResponseEntity.ok(createdArticle);
+	public ResponseEntity<?> createArticle(@RequestBody CreateArticleDTO createArticleDTO) {
+		try {
+			GetArticleDTO createdArticle = articleService.createArticle(createArticleDTO);
+			return ResponseEntity.ok(createdArticle);
+		} catch (IllegalArgumentException ex) {
+			return ResponseEntity.badRequest().body(java.util.Map.of("error", ex.getMessage()));
+		}
 	}
 
 	@GetMapping({ "/articles/{id}", "/articles/{id}/" })

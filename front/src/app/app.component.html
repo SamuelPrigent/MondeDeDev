@@ -1,9 +1,10 @@
 <div class="app">
   <!-- navbar if connected -->
-  <div class="linksFlex" *ngIf="$isLogged() | async">
+  <div class="linksFlexMain" *ngIf="$isLogged() | async">
     <mat-toolbar color="white" class="navBar d-flex justify-content-between align-items-center">
       <div class="insideNavBar">
         <img routerLink="articles" class="logo" src="../assets/logo_p6.png" alt="" />
+        <!---->
         <div class="linksFlex">
           <span (click)="logout()" class="linkDeconnect">Se déconnecter</span>
           <span routerLink="articles" class="link">Articles</span>
@@ -12,6 +13,23 @@
             <img class="myAccountImg" src="../assets/account.svg" alt="" />
           </span>
         </div>
+        <!-- Menu burger MOBILE -->
+        <button class="menu-btn" (click)="openMenu = true">
+          <img src="../assets/menu.svg" alt="Menu" />
+        </button>
+        <!-- Drawer MOBILE -->
+        <div class="side-drawer" [class.open]="openMenu">
+          <div class="drawer-content">
+            <span (click)="logout()" class="drawer-link logout">Se déconnecter</span>
+            <span routerLink="articles" class="drawer-link">Articles</span>
+            <span routerLink="themes" class="drawer-link">Thèmes</span>
+          </div>
+          <span class="drawer-close" (click)="openMenu = false">&times;</span>
+          <div class="myAccount" routerLink="me">
+            <img class="myAccountImg" src="../assets/account.svg" alt="" />
+          </div>
+        </div>
+        <div class="drawer-overlay" *ngIf="openMenu" (click)="openMenu = false"></div>
       </div>
     </mat-toolbar>
   </div>

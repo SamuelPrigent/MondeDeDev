@@ -163,6 +163,10 @@
     margin: 40px auto 60px;
     width: 80%;
   }
+
+  .containerArticles {
+    padding: 60px 32px;
+  }
 }
 
 @media screen and (max-width: 625px) {
@@ -171,5 +175,19 @@
     gap: 40px;
     margin: 40px auto 60px;
     width: 100%;
+  }
+
+  .containerArticles {
+    padding: 60px 18px;
+  }
+
+  .buttonSection {
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+  }
+  .createArticle {
+    width: 175px;
+    margin: auto;
   }
 }

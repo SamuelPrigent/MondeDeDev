@@ -39,6 +39,9 @@ public class ArticleService {
 	@Autowired
 	private ThemeUserService themeUserService;
 
+	@Autowired
+	private ThemeService themeService;
+
 	// Récupérer un article par son id
 	public Optional<Article> getById(Long id) {
 		return articleRepository.findById(id);
@@ -71,6 +74,14 @@ public class ArticleService {
 		// TO DO il faudra check que le token correspond bien à l'id pour qui on créé le post ??
 		// validation des données
 		request.validate();
+
+		// Vérification que le thème existe
+		List<GetThemesDTO> allThemes = themeService.getAllThemes();
+		boolean themeExists = allThemes.stream().anyMatch(theme -> theme.getThemeName().equals(request.getTheme()));
+		if (!themeExists) {
+			throw new IllegalArgumentException("Le thème spécifié n'existe pas : " + request.getTheme());
+		}
+
 		// get author via authorId
 		User author = userRepository.findById(request.getAuthorId())
 				.orElseThrow(() -> new IllegalArgumentException("Auteur non trouvé"));

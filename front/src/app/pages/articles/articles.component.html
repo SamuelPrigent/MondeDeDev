@@ -1,6 +1,11 @@
 <div class="containerArticles">
   <div class="buttonSection">
-    <button mat-raised-button color="primary" [routerLink]="['/createArticle']">
+    <button
+      class="createArticle"
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/createArticle']"
+    >
       Créer un article
     </button>
     <div class="sortButton" (click)="toggleSortByDate()" aria-label="Trier par date">
