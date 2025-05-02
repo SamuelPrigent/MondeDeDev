@@ -10,14 +10,23 @@
     <form class="formPutRequest" [formGroup]="userForm" (ngSubmit)="putUser()">
       <mat-form-field appearance="fill">
         <mat-label>Nom utilisateur</mat-label>
+        <mat-error *ngIf="userForm.get('username')?.hasError('required')">
+          Le nom d'utilisateur est obligatoire.
+        </mat-error>
         <input matInput formControlName="username" required />
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
+        <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+          L'email est obligatoire.
+        </mat-error>
         <input matInput formControlName="email" required />
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Mot de passe</mat-label>
+        <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+          Le mot de passe est obligatoire.
+        </mat-error>
         <input matInput formControlName="password" required />
       </mat-form-field>
       <button
