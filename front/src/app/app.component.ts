@@ -10,6 +10,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  title = 'front';
+  openMenu = false;
   private subscription: Subscription = new Subscription();
 
   constructor(private router: Router, private sessionService: SessionService) {}

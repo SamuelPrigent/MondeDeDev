@@ -15,8 +15,12 @@ export class ArticleService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getArticles(): Observable<Article[]> {
-    return this.httpClient.get<Article[]>(`${environment.baseUrl}${this.pathService}`);
+  //   public getArticles(): Observable<Article[]> {
+  //     return this.httpClient.get<Article[]>(`${environment.baseUrl}${this.pathService}`);
+  //   }
+
+  public getSubscribedArticles(): Observable<Article[]> {
+    return this.httpClient.get<Article[]>(`${environment.baseUrl}SubscribedArticles`);
   }
 
   // get id in params

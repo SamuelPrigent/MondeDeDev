@@ -84,6 +84,26 @@
   font-size: 14px;
 }
 
+// .IAColor {
+//   background-color: #e4ccf0;
+// }
+
+// .DesignColor {
+//   background-color: #acd6c8;
+// }
+
+// .BackendColor {
+//   background-color: #dbd2e9;
+// }
+
+// .FrontendColor {
+//   background-color: #b1cffb;
+// }
+
+// .MarketingColor {
+//   background-color: #eacce6;
+// }
+
 .articleTheme::first-letter {
   text-transform: capitalize;
 }
@@ -95,8 +115,8 @@
   line-height: 1.5;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  //   line-clamp: 4;
-  //   -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
 }
 
 .articleAuthor {
@@ -143,6 +163,10 @@
     margin: 40px auto 60px;
     width: 80%;
   }
+
+  .containerArticles {
+    padding: 60px 32px;
+  }
 }
 
 @media screen and (max-width: 625px) {
@@ -151,5 +175,19 @@
     gap: 40px;
     margin: 40px auto 60px;
     width: 100%;
+  }
+
+  .containerArticles {
+    padding: 60px 18px;
+  }
+
+  .buttonSection {
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+  }
+  .createArticle {
+    width: 175px;
+    margin: auto;
   }
 }

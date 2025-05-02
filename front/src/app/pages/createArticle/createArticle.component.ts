@@ -5,7 +5,6 @@ import { ArticleService } from 'src/app/services/article.service';
 import { catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { SessionService } from 'src/app/services/session.service';
 import { Theme } from 'src/app/interfaces/theme.interface';
 import { ThemeService } from 'src/app/services/theme.service';
 
@@ -22,14 +21,13 @@ export class CreateArticleComponent implements OnInit {
     private titleService: Title,
     private articleService: ArticleService,
     private fb: FormBuilder,
-    private sessionService: SessionService,
     private router: Router,
     private themeService: ThemeService
   ) {
     this.articleForm = this.fb.group({
       theme: ['', Validators.required],
-      title: ['', Validators.required],
-      description: ['', Validators.required],
+      title: ['', [Validators.required, Validators.maxLength(120)]],
+      description: ['', [Validators.required, Validators.maxLength(1500)]],
     });
   }
 
@@ -44,7 +42,6 @@ export class CreateArticleComponent implements OnInit {
     if (this.articleForm.valid) {
       const articleData = {
         ...this.articleForm.value,
-        authorId: this.sessionService.sessionInformation!.userId,
       };
 
       this.articleService

@@ -18,6 +18,9 @@ import com.openclassrooms.mddapi.models.Comment;
 import java.util.Optional;
 import java.util.List;
 
+import com.openclassrooms.mddapi.security.JwtUtil;
+import com.openclassrooms.mddapi.dto.GetThemesDTO;
+
 @Service
 public class ArticleService {
 
@@ -30,6 +33,15 @@ public class ArticleService {
 	@Autowired
 	private CommentRepository commentRepository;
 
+	@Autowired
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	private ThemeUserService themeUserService;
+
+	@Autowired
+	private ThemeService themeService;
+
 	// Récupérer un article par son id
 	public Optional<Article> getById(Long id) {
 		return articleRepository.findById(id);
@@ -40,14 +52,43 @@ public class ArticleService {
 		return articleRepository.findAll();
 	}
 
+	// Récupérer les articles auxquels l'utilisateur est abonné (logique complète)
+	public List<GetArticleDTO> getSubscribedArticles(String token) {
+		// Extraire l'email du token
+		String email = jwtUtil.extractEmail(token);
+		Optional<User> userOpt = userRepository.findByEmail(email);
+		User user = userOpt.orElse(null);
+		if (user == null) {
+			return List.of();
+		}
+		// Récupérer les thèmes auxquels l'utilisateur est abonné
+		List<GetThemesDTO> userThemes = themeUserService.getThemesByUserId(user.getId());
+		List<String> themeNames = userThemes.stream().map(GetThemesDTO::getThemeName).toList();
+		// Récupérer les articles filtrés par nom de thème et transformer en DTO
+		return articleRepository.findAll().stream().filter(article -> themeNames.contains(article.getTheme()))
+				.map(GetArticleDTO::new).toList();
+	}
+
 	// Create Article
-	public GetArticleDTO createArticle(CreateArticleDTO request) {
-		// TO DO il faudra check que le token correspond bien à l'id pour qui on créé le post ??
-		// validation des données
+	public GetArticleDTO createArticle(CreateArticleDTO request, String token) {
+		// validation données request
 		request.validate();
-		// get author via authorId
-		User author = userRepository.findById(request.getAuthorId())
+
+		// Vérification que le thème existe
+		List<GetThemesDTO> allThemes = themeService.getAllThemes();
+		boolean themeExists = allThemes.stream().anyMatch(theme -> theme.getThemeName().equals(request.getTheme()));
+		if (!themeExists) {
+			throw new IllegalArgumentException("Le thème spécifié n'existe pas : " + request.getTheme());
+		}
+
+		// Récupère l'id utilisateur depuis le token
+		Long userIdFromToken = jwtUtil.extractUserId(token);
+		if (userIdFromToken == null) {
+			throw new IllegalArgumentException("Utilisateur authentifié introuvable dans le token");
+		}
+		User author = userRepository.findById(userIdFromToken)
 				.orElseThrow(() -> new IllegalArgumentException("Auteur non trouvé"));
+
 		// create article object
 		Article article = new Article();
 		article.setTitle(request.getTitle());
@@ -68,12 +109,14 @@ public class ArticleService {
 	}
 
 	// post comment 
-	public Comment postComment(Long articleId, PostCommentDTO dto) {
+	public Comment postComment(Long articleId, PostCommentDTO dto, String token) {
 		// Vérifier que l'article existe
 		Article article = articleRepository.findById(articleId)
 				.orElseThrow(() -> new IllegalArgumentException("Article non trouvé"));
+		// Extraire l'id utilisateur du token
+		Long userId = jwtUtil.extractUserId(token);
 		// Vérifier que l'utilisateur existe
-		User user = userRepository.findById(dto.getUserId())
+		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
 
 		Comment comment = new Comment();

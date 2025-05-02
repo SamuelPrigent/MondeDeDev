@@ -19,9 +19,21 @@
         <mat-form-field appearance="fill" class="w100">
           <mat-label>Titre de l'article</mat-label>
           <input matInput formControlName="title" required />
+          <mat-error *ngIf="articleForm.get('title')?.hasError('required')">
+            Le titre est obligatoire.
+          </mat-error>
+          <mat-error *ngIf="articleForm.get('title')?.hasError('maxlength')">
+            Le titre ne doit pas dépasser 120 caractères.
+          </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" class="w100">
           <mat-label>Contenu de l'article</mat-label>
+          <mat-error *ngIf="articleForm.get('description')?.hasError('required')">
+            La description est obligatoire.
+          </mat-error>
+          <mat-error *ngIf="articleForm.get('description')?.hasError('maxlength')">
+            La description ne doit pas dépasser 1500 caractères.
+          </mat-error>
           <textarea
             class="contentCreateArticle"
             matInput

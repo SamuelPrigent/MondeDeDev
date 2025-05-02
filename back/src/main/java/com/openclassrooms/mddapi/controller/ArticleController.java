@@ -1,5 +1,8 @@
 package com.openclassrooms.mddapi.controller;
 
+import java.util.Optional;
+import org.springframework.web.bind.annotation.RequestHeader;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +21,6 @@ import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.service.ArticleService;
 import com.openclassrooms.mddapi.models.Comment;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.http.MediaType;
 
 @RestController
@@ -38,12 +40,24 @@ public class ArticleController {
 		return ResponseEntity.ok(articlesDTO);
 	}
 
-	// => TODO doit récupérer seulement les articles lié aux abonnements de l'utilisateur
+	@GetMapping({ "/SubscribedArticles", "/SubscribedArticles/" })
+	public ResponseEntity<List<GetArticleDTO>> getSubscribedArticles(@RequestHeader("Authorization") String authHeader) {
+		// Extraire le token
+		String token = authHeader.replace("Bearer ", "");
+		List<GetArticleDTO> articlesDTO = articleService.getSubscribedArticles(token);
+		return ResponseEntity.ok(articlesDTO);
+	}
 
 	@PostMapping(value = { "/articles", "/articles/" }, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<GetArticleDTO> createArticle(@RequestBody CreateArticleDTO createArticleDTO) {
-		GetArticleDTO createdArticle = articleService.createArticle(createArticleDTO); // Créer l'utilisateur
-		return ResponseEntity.ok(createdArticle);
+	public ResponseEntity<?> createArticle(@RequestBody CreateArticleDTO createArticleDTO,
+			@RequestHeader("Authorization") String authHeader) {
+		try {
+			String token = authHeader.replace("Bearer ", "");
+			GetArticleDTO createdArticle = articleService.createArticle(createArticleDTO, token);
+			return ResponseEntity.ok(createdArticle);
+		} catch (IllegalArgumentException ex) {
+			return ResponseEntity.badRequest().body(java.util.Map.of("error", ex.getMessage()));
+		}
 	}
 
 	@GetMapping({ "/articles/{id}", "/articles/{id}/" })
@@ -66,9 +80,10 @@ public class ArticleController {
 
 	// post comment by article ID
 	@PostMapping({ "/articles/{id}/comments", "/articles/{id}/comments/" })
-	public ResponseEntity<GetCommentDTO> postComment(@PathVariable("id") Long articleId,
-			@RequestBody PostCommentDTO dto) {
-		Comment saved = articleService.postComment(articleId, dto);
+	public ResponseEntity<GetCommentDTO> postComment(@PathVariable("id") Long articleId, @RequestBody PostCommentDTO dto,
+			@RequestHeader("Authorization") String authHeader) {
+		String token = authHeader.replace("Bearer ", "");
+		Comment saved = articleService.postComment(articleId, dto, token);
 		return ResponseEntity.ok(new GetCommentDTO(saved));
 	}
 }

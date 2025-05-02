@@ -35,13 +35,30 @@ public class JwtUtil {
 
 	private final long jwtExpiration = 1000 * 60 * 60 * 10; // 10 hours
 
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(UserDetails userDetails, Long userId) {
 		Map<String, Object> claims = new HashMap<>();
 		if (userDetails instanceof org.springframework.security.core.userdetails.User) {
-			// On ajoute l'email dans les claims
 			claims.put("email", userDetails.getUsername());
 		}
+		if (userId != null) {
+			claims.put("id", userId);
+		}
 		return createToken(claims, userDetails.getUsername());
+	}
+
+	// Méthode pour extraire l'id utilisateur du token
+	public Long extractUserId(String token) {
+		Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+		Object idObj = claims.get("id");
+		if (idObj == null)
+			return null;
+		if (idObj instanceof Integer)
+			return ((Integer) idObj).longValue();
+		if (idObj instanceof Long)
+			return (Long) idObj;
+		if (idObj instanceof String)
+			return Long.parseLong((String) idObj);
+		return null;
 	}
 
 	private String createToken(Map<String, Object> claims, String subject) {

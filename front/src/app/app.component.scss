@@ -1,36 +1,41 @@
-.app {
-  .linksFlex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 22px;
-  }
+.linksFlexMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+}
 
-  .link {
-    cursor: pointer;
-    font-size: 16px;
-    text-decoration: none;
-    font-weight: normal;
-  }
+.linksFlex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+}
 
-  .linkDeconnect {
-    cursor: pointer;
-    font-size: 14px;
-    text-decoration: none;
-    color: #a40f0f;
-  }
+.link {
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: normal;
+}
 
-  .myAccount {
-    display: flex;
-    cursor: pointer;
-    border-radius: 50%;
-    aspect-ratio: 1/1;
-    align-items: center;
-    justify-content: center;
-    // border: 2px solid rgb(71, 38, 88);
-    background-color: #d4ccf0;
-    width: 37px;
-  }
+.linkDeconnect {
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  color: #a40f0f;
+}
+
+.myAccount {
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  align-items: center;
+  justify-content: center;
+  // border: 2px solid rgb(71, 38, 88);
+  background-color: #d4ccf0;
+  width: 37px;
 }
 
 .navBar {
@@ -59,4 +64,115 @@
 .myAccountImg {
   height: 21px;
   filter: brightness(0.2);
+}
+
+.menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Responsive : mobile < 900px */
+@media (max-width: 625px) {
+  .linksFlex {
+    display: none !important;
+  }
+  .menu-btn {
+    display: block !important;
+  }
+  .side-drawer,
+  .drawer-overlay {
+    display: block;
+  }
+
+  .myAccount {
+    margin: 0 20px 20px;
+    width: 48px;
+  }
+
+  .myAccountImg {
+    height: 24px;
+  }
+}
+
+/* Desktop : > 900px */
+@media (min-width: 901px) {
+  .linksFlex {
+    display: flex !important;
+  }
+  .menu-btn,
+  .side-drawer,
+  .drawer-overlay {
+    display: none !important;
+  }
+}
+
+.side-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 265px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -2px 0 16px rgba(0, 0, 0, 0.08);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: right 0.3s;
+  &.open {
+    right: 0;
+  }
+  .drawer-content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    gap: 8px;
+    padding: 0 22px;
+
+    .drawer-link {
+      font-size: 20px;
+      color: #222;
+      cursor: pointer;
+      font-weight: 400;
+
+      &.logout {
+        font-size: 14px;
+        color: #c00;
+        font-weight: bold;
+        width: fit-content;
+      }
+    }
+  }
+  .drawer-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 2.1rem;
+    cursor: pointer;
+  }
+  .drawer-account {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 80px;
+    img {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.12);
+  z-index: 1050;
 }

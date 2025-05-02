@@ -12,7 +12,7 @@ import { Article } from 'src/app/interfaces/article.interface';
 })
 export class ArticlesComponent implements OnInit {
   public articles$!: Observable<Article[]>;
-  public sortOrder$ = new BehaviorSubject<'asc' | 'desc'>('asc');
+  public sortOrder$ = new BehaviorSubject<'asc' | 'desc'>('desc');
 
   constructor(private titleService: Title, private articleService: ArticleService) {}
 
@@ -22,7 +22,7 @@ export class ArticlesComponent implements OnInit {
     // articles
     this.articles$ = this.sortOrder$.pipe(
       switchMap(order =>
-        this.articleService.getArticles().pipe(
+        this.articleService.getSubscribedArticles().pipe(
           map(articles =>
             articles.sort((a, b) => {
               const dateA = new Date(a.created_at).getTime();
