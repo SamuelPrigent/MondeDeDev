@@ -75,11 +75,8 @@ export class ArticleDetailComponent implements OnInit {
     }
 
     const comment = this.commentForm.value.comment.trim();
-    const userId = this.sessionService.sessionInformation?.userId;
-    if (!userId) return;
-
     const articleId = +this.route.snapshot.paramMap.get('id')!;
-    const post: postComment = { userId, comment };
+    const post: postComment = { comment };
 
     this.postComment(articleId, post);
     this.commentForm.reset();
