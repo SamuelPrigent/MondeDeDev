@@ -47,10 +47,14 @@ public class AuthController {
 
 			// get user details
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			String token = jwtUtil.generateToken(userDetails);
+			// String token = jwtUtil.generateToken(userDetails);
+			Long userId = userService.getUserId(userDetails.getUsername());
+
+			// Generate Token
+			String token = jwtUtil.generateToken(userDetails, userId);
 
 			// getUserId to send it in response
-			Long userId = userService.getUserId(userDetails.getUsername());
+			// Long userId = userService.getUserId(userDetails.getUsername());
 
 			return ResponseEntity.ok(new LoginResponseDTO(token, userId));
 		} catch (Exception e) {

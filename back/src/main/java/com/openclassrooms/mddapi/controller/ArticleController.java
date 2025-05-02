@@ -49,9 +49,11 @@ public class ArticleController {
 	}
 
 	@PostMapping(value = { "/articles", "/articles/" }, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> createArticle(@RequestBody CreateArticleDTO createArticleDTO) {
+	public ResponseEntity<?> createArticle(@RequestBody CreateArticleDTO createArticleDTO,
+			@RequestHeader("Authorization") String authHeader) {
 		try {
-			GetArticleDTO createdArticle = articleService.createArticle(createArticleDTO);
+			String token = authHeader.replace("Bearer ", "");
+			GetArticleDTO createdArticle = articleService.createArticle(createArticleDTO, token);
 			return ResponseEntity.ok(createdArticle);
 		} catch (IllegalArgumentException ex) {
 			return ResponseEntity.badRequest().body(java.util.Map.of("error", ex.getMessage()));
@@ -78,9 +80,10 @@ public class ArticleController {
 
 	// post comment by article ID
 	@PostMapping({ "/articles/{id}/comments", "/articles/{id}/comments/" })
-	public ResponseEntity<GetCommentDTO> postComment(@PathVariable("id") Long articleId,
-			@RequestBody PostCommentDTO dto) {
-		Comment saved = articleService.postComment(articleId, dto);
+	public ResponseEntity<GetCommentDTO> postComment(@PathVariable("id") Long articleId, @RequestBody PostCommentDTO dto,
+			@RequestHeader("Authorization") String authHeader) {
+		String token = authHeader.replace("Bearer ", "");
+		Comment saved = articleService.postComment(articleId, dto, token);
 		return ResponseEntity.ok(new GetCommentDTO(saved));
 	}
 }

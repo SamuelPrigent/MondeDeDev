@@ -23,26 +23,26 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 		String normalized = usernameOrEmail.toLowerCase().trim();
-		System.out.println("Recherche d'utilisateur avec identifiant (email ou username) normalisé : " + normalized);
+		// System.out.println("Recherche d'utilisateur avec identifiant (email ou username) normalisé : " + normalized);
 
 		User user = null;
 		try {
 			if (normalized.contains("@")) {
 				// Recherche par email
 				user = userRepository.findByEmailIgnoreCase(normalized).orElseThrow(() -> {
-					System.out.println("Aucun utilisateur trouvé avec cet email (insensible à la casse) : " + normalized);
+					// System.out.println("Aucun utilisateur trouvé avec cet email (insensible à la casse) : " + normalized);
 					return new UsernameNotFoundException("User not found with email: " + normalized);
 				});
-				System.out.println("Utilisateur trouvé avec email : " + normalized + ", ID : " + user.getId());
+				// System.out.println("Utilisateur trouvé avec email : " + normalized + ", ID : " + user.getId());
 			} else {
 				// Recherche par username
 				user = userRepository.findByUsernameIgnoreCase(normalized).orElseThrow(() -> {
-					System.out.println("Aucun utilisateur trouvé avec ce username (insensible à la casse) : " + normalized);
+					// System.out.println("Aucun utilisateur trouvé avec ce username (insensible à la casse) : " + normalized);
 					return new UsernameNotFoundException("User not found with username: " + normalized);
 				});
-				System.out.println("Utilisateur trouvé avec username : " + normalized + ", ID : " + user.getId());
+				// System.out.println("Utilisateur trouvé avec username : " + normalized + ", ID : " + user.getId());
 			}
-			System.out.println("Mot de passe haché récupéré de la BDD : " + user.getPassword());
+			// System.out.println("Mot de passe haché récupéré de la BDD : " + user.getPassword());
 			return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
 					.password(user.getPassword()).authorities(new ArrayList<>()).build();
 		} catch (Exception e) {

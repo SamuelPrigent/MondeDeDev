@@ -41,21 +41,19 @@ public class UserController {
 	}
 
 	/**
-	 * PUT /api/user/{id}
+	 * Nouvelle version : PUT /api/user/{id} avec vérification via l'id du token
 	 */
-	@PutMapping("/user/{id}")
-	public ResponseEntity<LoginResponseDTO> putUserById(@PathVariable Long id,
-			@RequestHeader("Authorization") String token, @RequestBody UpdateUserDTO updateUserDTO) {
-		// Extraire l'email de l'utilisateur à partir du token
-		String email = jwtUtil.extractUsername(token.substring(7));
-
-		// Récupérer l'utilisateur par email
-		GetUserDTO userFromToken = userService.getByEmail(email);
+	@PutMapping({ "/user/{id}", "/user/{id}/" })
+	public ResponseEntity<?> putUserById(@PathVariable Long id, @RequestHeader("Authorization") String token,
+			@RequestBody UpdateUserDTO updateUserDTO) {
+		// Extraire l'id utilisateur à partir du token
+		Long userIdFromToken = jwtUtil.extractUserId(token.substring(7));
 
 		// Vérifier si l'ID extrait correspond à l'ID de la requête
-		if (!userFromToken.getId().equals(id)) {
+		if (userIdFromToken == null || !userIdFromToken.equals(id)) {
 			System.out.println("ID de l'utilisateur ne correspond pas à l'ID de la requête.");
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN)
+					.body(java.util.Map.of("error", "Vous n'êtes pas autorisé à modifier cet utilisateur."));
 		}
 
 		// Vérifier si l'utilisateur existe
@@ -70,17 +68,14 @@ public class UserController {
 		System.out.println("Utilisateur mis à jour: " + updatedUser);
 
 		// Renvoie d'un nouveau token mis à jour
-		// Connecter le user avec ce genre de code : 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(updateUserDTO.getEmail(), updateUserDTO.getPassword()));
 
 		// get user details
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		String newToken = jwtUtil.generateToken(userDetails);
+		String newToken = jwtUtil.generateToken(userDetails, id);
 
-		// getUserId to send it in response
-		Long userId = userService.getUserId(userDetails.getUsername());
-
-		return ResponseEntity.ok(new LoginResponseDTO(newToken, userId));
+		return ResponseEntity.ok(new LoginResponseDTO(newToken, id));
 	}
+
 }

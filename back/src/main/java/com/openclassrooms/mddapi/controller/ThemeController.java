@@ -40,19 +40,6 @@ public class ThemeController {
 	// ==== Subscribe & Unsubscribe to a theme ====
 
 	// Subscribe
-	// @PostMapping({ "/themes/subscribe", "/themes/subscribe/" })
-	// public ResponseEntity<List<GetThemesDTO>> subscribeThemeWithList(@RequestBody ThemeSubscribeDTO body,
-	// @RequestHeader("Authorization") String authHeader) {
-	// 	String token = authHeader.replace("Bearer ", "");
-	// 	boolean result = themeUserService.subscribeTheme(body.getThemeId(), token);
-	// 	if (result) {
-	// 		List<GetThemesDTO> themes = themeUserService.getThemesForMe(token);
-	// 		return ResponseEntity.ok(themes);
-	// 	}
-	// 	return ResponseEntity.badRequest().build();
-	// }
-
-	// Subscribe
 	@PostMapping({ "/themes/subscribe", "/themes/subscribe/" })
 	public ResponseEntity<List<GetThemesWithSubsInfoDTO>> subscribeThemeWithList(@RequestBody ThemeSubscribeDTO body,
 			@RequestHeader("Authorization") String authHeader) {

@@ -41,13 +41,11 @@ public class ThemeUserService {
 
 	// Retourne la liste des thèmes de l'utilisateur à partir du token
 	public List<GetThemesDTO> getThemesForMe(String token) {
-		String email = jwtUtil.extractEmail(token);
-		Optional<User> userOpt = userRepository.findByEmail(email);
-		User user = userOpt.orElse(null);
-		if (user == null) {
+		Long userId = jwtUtil.extractUserId(token);
+		if (userId == null) {
 			return List.of();
 		}
-		return getThemesByUserId(user.getId());
+		return getThemesByUserId(userId);
 	}
 
 	// Abonnement à un thème
@@ -91,7 +89,6 @@ public class ThemeUserService {
 		return true;
 	}
 
-	//
 	public List<GetThemesDTO> getThemesByUserId(Long userId) {
 		List<Themes> themes = themeUserRepository.findThemesByUserId(userId);
 		return themes.stream()

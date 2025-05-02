@@ -70,9 +70,8 @@ public class ArticleService {
 	}
 
 	// Create Article
-	public GetArticleDTO createArticle(CreateArticleDTO request) {
-		// TO DO il faudra check que le token correspond bien à l'id pour qui on créé le post ??
-		// validation des données
+	public GetArticleDTO createArticle(CreateArticleDTO request, String token) {
+		// validation données request
 		request.validate();
 
 		// Vérification que le thème existe
@@ -82,9 +81,14 @@ public class ArticleService {
 			throw new IllegalArgumentException("Le thème spécifié n'existe pas : " + request.getTheme());
 		}
 
-		// get author via authorId
-		User author = userRepository.findById(request.getAuthorId())
+		// Récupère l'id utilisateur depuis le token
+		Long userIdFromToken = jwtUtil.extractUserId(token);
+		if (userIdFromToken == null) {
+			throw new IllegalArgumentException("Utilisateur authentifié introuvable dans le token");
+		}
+		User author = userRepository.findById(userIdFromToken)
 				.orElseThrow(() -> new IllegalArgumentException("Auteur non trouvé"));
+
 		// create article object
 		Article article = new Article();
 		article.setTitle(request.getTitle());
@@ -105,12 +109,14 @@ public class ArticleService {
 	}
 
 	// post comment 
-	public Comment postComment(Long articleId, PostCommentDTO dto) {
+	public Comment postComment(Long articleId, PostCommentDTO dto, String token) {
 		// Vérifier que l'article existe
 		Article article = articleRepository.findById(articleId)
 				.orElseThrow(() -> new IllegalArgumentException("Article non trouvé"));
+		// Extraire l'id utilisateur du token
+		Long userId = jwtUtil.extractUserId(token);
 		// Vérifier que l'utilisateur existe
-		User user = userRepository.findById(dto.getUserId())
+		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
 
 		Comment comment = new Comment();
