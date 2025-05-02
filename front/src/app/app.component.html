@@ -21,11 +21,13 @@
         <div class="side-drawer" [class.open]="openMenu">
           <div class="drawer-content">
             <span (click)="logout()" class="drawer-link logout">Se déconnecter</span>
-            <span routerLink="articles" class="drawer-link">Articles</span>
-            <span routerLink="themes" class="drawer-link">Thèmes</span>
+            <span routerLink="articles" (click)="openMenu = false" class="drawer-link"
+              >Articles</span
+            >
+            <span routerLink="themes" (click)="openMenu = false" class="drawer-link">Themes</span>
           </div>
           <span class="drawer-close" (click)="openMenu = false">&times;</span>
-          <div class="myAccount" routerLink="me">
+          <div class="myAccount" (click)="openMenu = false" routerLink="me">
             <img class="myAccountImg" src="../assets/account.svg" alt="" />
           </div>
         </div>
