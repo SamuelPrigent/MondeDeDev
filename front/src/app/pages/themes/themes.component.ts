@@ -16,7 +16,7 @@ export class ThemesComponent implements OnInit {
 
   ngOnInit(): void {
     // title
-    this.titleService.setTitle('Themes');
+    this.titleService.setTitle('Themes / MDD');
     // themes
     this.themes$ = this.themeService.getThemesSubsInfo();
   }

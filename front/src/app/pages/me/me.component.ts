@@ -36,7 +36,7 @@ export class MeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Profil utilisateur');
+    this.titleService.setTitle('Profil utilisateur / MDD');
     // form values for edit account
     this.authService.me().subscribe((user: User) => {
       this.user = user;

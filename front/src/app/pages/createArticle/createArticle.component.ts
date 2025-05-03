@@ -33,7 +33,7 @@ export class CreateArticleComponent implements OnInit {
 
   ngOnInit(): void {
     // title
-    this.titleService.setTitle('Nouvel article');
+    this.titleService.setTitle('Nouvel article / MDD');
     // theme list
     this.themesList$ = this.themeService.getThemes();
   }

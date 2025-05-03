@@ -18,7 +18,7 @@ export class ArticlesComponent implements OnInit {
 
   ngOnInit(): void {
     // title
-    this.titleService.setTitle('Articles');
+    this.titleService.setTitle('Articles / MDD');
     // articles
     this.articles$ = this.sortOrder$.pipe(
       switchMap(order =>
