@@ -10,7 +10,6 @@ import { of } from 'rxjs';
 import { getComment } from 'src/app/interfaces/getComment.interface';
 import { postComment } from 'src/app/interfaces/postComment.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { loadingDelay$ } from 'src/app/utils/loading.util';
 
 @Component({
   selector: 'app-articleDetail',
@@ -36,9 +35,6 @@ export class ArticleDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // loading state
-    this.loading = true;
-    loadingDelay$().subscribe(() => (this.loading = false));
     // title
     this.titleService.setTitle('Article detail');
     // articles

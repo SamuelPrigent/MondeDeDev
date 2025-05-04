@@ -1,58 +1,46 @@
 <div class="containerArticles">
-  <!-- loader -->
-  <ng-container *ngIf="loading; else contentBlock">
-    <div class="loadingContainer">
-      <div (click)="back()" class="articleDetailArrowBack">
-        <img src="../../../assets/arrowBack.svg" alt="" />
-      </div>
-      <mat-spinner diameter="30"></mat-spinner>
+  <div class="articleDetailBloc" *ngIf="article$ | async as article">
+    <div (click)="back()" class="articleDetailArrowBack">
+      <img src="../../../assets/arrowBack.svg" alt="" />
     </div>
-  </ng-container>
-  <!-- after loading -->
-  <ng-template #contentBlock>
-    <div class="articleDetailBloc" *ngIf="article$ | async as article">
-      <div (click)="back()" class="articleDetailArrowBack">
-        <img src="../../../assets/arrowBack.svg" alt="" />
-      </div>
-      <div class="articleDetailTopInfo">
-        <div class="articleDetailTitle">{{ article.title }}</div>
-      </div>
-      <div class="articleBottomSection">
-        <div class="articleDetailDate">Posté le {{ article.created_at | dateFormat }}</div>
-        <div class="authorSection">
-          <div class="articleDetailAuthor">{{ article.authorUsername }}</div>
-        </div>
-        <div class="articleDetailTheme">{{ article.theme }}</div>
-      </div>
-      <div class="articleDetailDesc">{{ article.description }}</div>
+    <div class="articleDetailTopInfo">
+      <div class="articleDetailTitle">{{ article.title }}</div>
     </div>
-    <div class="articleDetailComment">Commentaires</div>
-    <div style="display: flex; flex-direction: column; gap: 10px">
-      <div class="commentBloc" *ngIf="comments$ | async as comments">
-        <div *ngFor="let comment of comments" class="commentElement">
-          <div class="commentUser">{{ comment.username }}</div>
-          <div class="commentText">{{ comment.comment }}</div>
-        </div>
+    <div class="articleBottomSection">
+      <div class="articleDetailDate">Posté le {{ article.created_at | dateFormat }}</div>
+      <div class="authorSection">
+        <div class="articleDetailAuthor">{{ article.authorUsername }}</div>
+      </div>
+      <div class="articleDetailTheme">{{ article.theme }}</div>
+    </div>
+    <div class="articleDetailDesc">{{ article.description }}</div>
+  </div>
+  <div class="articleDetailComment">Commentaires</div>
+  <div style="display: flex; flex-direction: column; gap: 10px">
+    <div class="commentBloc" *ngIf="comments$ | async as comments">
+      <div *ngFor="let comment of comments" class="commentElement">
+        <div class="commentUser">{{ comment.username }}</div>
+        <div class="commentText">{{ comment.comment }}</div>
       </div>
     </div>
-    <form
-      [formGroup]="commentForm"
-      (ngSubmit)="submitComment()"
-      style="display: flex; gap: 10px; width: 100%"
-    >
-      <mat-form-field appearance="fill" style="width: 100%">
-        <textarea
-          class="inputComment"
-          matInput
-          placeholder="Ajouter un commentaire..."
-          formControlName="comment"
-        ></textarea>
-      </mat-form-field>
-      <div style="padding-bottom: 1.34375em; box-sizing: border-box">
-        <button class="submitButton" type="submit" [disabled]="commentForm.invalid">
-          <img src="../../../assets/send.svg" alt="envoyer commentaire" />
-        </button>
-      </div>
-    </form>
-  </ng-template>
+  </div>
+  <form
+    [formGroup]="commentForm"
+    (ngSubmit)="submitComment()"
+    style="display: flex; gap: 10px; width: 100%"
+  >
+    <mat-form-field appearance="fill" style="width: 100%">
+      <textarea
+        class="inputComment"
+        matInput
+        placeholder="Ajouter un commentaire..."
+        formControlName="comment"
+      ></textarea>
+    </mat-form-field>
+    <div style="padding-bottom: 1.34375em; box-sizing: border-box">
+      <button class="submitButton" type="submit" [disabled]="commentForm.invalid">
+        <img src="../../../assets/send.svg" alt="envoyer commentaire" />
+      </button>
+    </div>
+  </form>
 </div>
