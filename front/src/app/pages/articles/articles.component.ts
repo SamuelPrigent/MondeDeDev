@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { loadingDelay$ } from 'src/app/utils/loading.util';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { ArticleService } from 'src/app/services/article.service';
 import { Article } from 'src/app/interfaces/article.interface';
