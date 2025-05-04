@@ -36,12 +36,11 @@ export class ArticlesComponent implements OnInit {
               return order === 'asc' ? dateA - dateB : dateB - dateA;
             })
           )
-          //   tap(() => (this.loading = false)) // si on avait plus de données
+          // Si on avait d'avantage de donnée le loader serait fermé de cette mannière
+          //   tap(() => (this.loading = false))
         )
       )
     );
-    // subscribe pour démarrer le flux malgré la condition dans le template
-    // this.articles$.pipe(first()).subscribe();
   }
 
   toggleSortByDate(): void {
