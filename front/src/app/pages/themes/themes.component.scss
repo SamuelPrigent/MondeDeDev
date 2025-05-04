@@ -11,7 +11,8 @@
   min-height: calc(100vh - 77px);
   display: flex;
   flex-direction: column;
-  padding: 60px 40px;
+  // padding: 60px 40px;
+  padding: 60px 120px;
   box-sizing: border-box;
   max-width: 1200px;
   margin: 0 auto;
@@ -71,6 +72,11 @@
     gap: 40px;
     width: 80%;
   }
+
+  .containerArticles {
+    // padding: 60px 18px;
+    padding: 60px 60px;
+  }
 }
 
 @media screen and (max-width: 625px) {
@@ -81,6 +87,7 @@
   }
 
   .containerArticles {
+    // padding: 60px 18px;
     padding: 60px 18px;
   }
 }

@@ -9,7 +9,6 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { getComment } from 'src/app/interfaces/getComment.interface';
 import { postComment } from 'src/app/interfaces/postComment.interface';
-import { SessionService } from 'src/app/services/session.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -21,13 +20,13 @@ export class ArticleDetailComponent implements OnInit {
   public article$!: Observable<Article | null>;
   public comments$!: Observable<getComment[]>;
   public commentForm: FormGroup;
+  loading = true;
 
   constructor(
     private titleService: Title,
     private articleService: ArticleService,
     private route: ActivatedRoute,
     private router: Router,
-    private sessionService: SessionService,
     private fb: FormBuilder
   ) {
     this.commentForm = this.fb.group({

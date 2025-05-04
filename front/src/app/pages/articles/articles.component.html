@@ -18,26 +18,36 @@
     </div>
   </div>
   <div class="articleBloc">
-    <a
-      *ngFor="let article of articles$ | async"
-      class="articleElement"
-      routerLink="/articles/{{ article.id }}"
-    >
-      <div class="artitleTopSection">
-        <div class="articleTitle">{{ article.title }}</div>
-        <div class="articleTheme">{{ article.theme }}</div>
+    <!-- loader -->
+    <ng-container *ngIf="loading; else articlesList">
+      <div class="loadingContainer">
+        <mat-spinner diameter="26" strokeWidth="4"></mat-spinner>
       </div>
-      <div class="bottomSection">
-        <div class="articleDate">Posté le {{ article.created_at | dateFormat }}</div>
-        <div class="authorSection">
-          <div class="articleAuthor">{{ article.authorUsername }}</div>
-          <!--
-            <div class="authorCircle">
-                <img src="../../../assets/account.svg" alt="" />
-            </div>
-        --></div>
-      </div>
-      <div class="articleDesc">{{ article.description }}</div>
-    </a>
+    </ng-container>
+    <!-- content -->
+    <ng-template #articlesList>
+      <a
+        *ngFor="let article of articles$ | async"
+        class="articleElement"
+        routerLink="/articles/{{ article.id }}"
+      >
+        <div class="artitleTopSection">
+          <div class="articleTitle">{{ article.title }}</div>
+          <div class="articleTheme">{{ article.theme }}</div>
+        </div>
+        <div class="bottomSection">
+          <div class="articleDate">Posté le {{ article.created_at | dateFormat }}</div>
+          <div class="authorSection">
+            <div class="articleAuthor">{{ article.authorUsername }}</div>
+            <!--
+                <div class="authorCircle">
+                    <img src="../../../assets/account.svg" alt="" />
+                </div>
+            -->
+          </div>
+        </div>
+        <div class="articleDesc">{{ article.description }}</div>
+      </a>
+    </ng-template>
   </div>
 </div>
