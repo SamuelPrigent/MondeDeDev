@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { loadingDelay$ } from 'src/app/utils/loading.util';
+import { first } from 'rxjs';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { ArticleService } from 'src/app/services/article.service';
 import { Article } from 'src/app/interfaces/article.interface';
@@ -35,9 +36,12 @@ export class ArticlesComponent implements OnInit {
               return order === 'asc' ? dateA - dateB : dateB - dateA;
             })
           )
+          //   tap(() => (this.loading = false)) // si on avait plus de données
         )
       )
     );
+    // subscribe pour démarrer le flux malgré la condition dans le template
+    // this.articles$.pipe(first()).subscribe();
   }
 
   toggleSortByDate(): void {
