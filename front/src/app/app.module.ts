@@ -12,6 +12,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 // for put user
 import { ReactiveFormsModule } from '@angular/forms'; // for Put User (in /me)
 import { MatInputModule } from '@angular/material/input';
@@ -41,6 +43,7 @@ const materialModule = [
   MatFormFieldModule,
   MatSelectModule,
   MatOptionModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({

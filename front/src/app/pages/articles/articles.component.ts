@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { loadingDelay$ } from 'src/app/utils/loading.util';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
@@ -11,12 +12,16 @@ import { Article } from 'src/app/interfaces/article.interface';
   styleUrls: ['./articles.component.scss'],
 })
 export class ArticlesComponent implements OnInit {
+  loading = true;
   public articles$!: Observable<Article[]>;
   public sortOrder$ = new BehaviorSubject<'asc' | 'desc'>('desc');
 
   constructor(private titleService: Title, private articleService: ArticleService) {}
 
   ngOnInit(): void {
+    // loading state
+    this.loading = true;
+    loadingDelay$().subscribe(() => (this.loading = false));
     // title
     this.titleService.setTitle('Articles / MDD');
     // articles
