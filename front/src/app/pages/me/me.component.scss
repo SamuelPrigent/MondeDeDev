@@ -1,6 +1,6 @@
 // quels sont les classes non utilisés ?
 .m3 {
-  padding: 1.5rem 30px 30px;
+  padding: 1.5rem 30px 75px;
   max-width: 800px;
   margin: auto;
 }
@@ -78,7 +78,7 @@
   }
 
   .m3 {
-    padding: 0 18px;
+    padding: 0 18px 35px;
   }
 }
 
@@ -88,9 +88,19 @@
   height: 2px;
   border-radius: 4px;
   background-color: black;
-  margin: 40px auto 30px;
+  margin: 50px auto 30px;
 }
 
 .unsubscribeButton {
   margin: auto 0 0;
+}
+
+.noThemesMsg {
+  display: flex;
+  width: 100%;
+  grid-column: span 2;
+  color: #3b3b3b;
+  font-size: 15px;
+  justify-content: center;
+  align-items: center;
 }

@@ -26,28 +26,33 @@
     </ng-container>
     <!-- content -->
     <ng-template #articlesList>
-      <a
-        *ngFor="let article of articles$ | async"
-        class="articleElement"
-        routerLink="/articles/{{ article.id }}"
-      >
-        <div class="artitleTopSection">
-          <div class="articleTitle">{{ article.title }}</div>
-          <div class="articleTheme">{{ article.theme }}</div>
-        </div>
-        <div class="bottomSection">
-          <div class="articleDate">Posté le {{ article.created_at | dateFormat }}</div>
-          <div class="authorSection">
-            <div class="articleAuthor">{{ article.authorUsername }}</div>
-            <!--
-                <div class="authorCircle">
-                    <img src="../../../assets/account.svg" alt="" />
-                </div>
-            -->
+      <ng-container *ngIf="articles$ | async as articles">
+        <ng-container *ngIf="articles.length > 0; else noArticles">
+          <a
+            *ngFor="let article of articles"
+            class="articleElement"
+            routerLink="/articles/{{ article.id }}"
+          >
+            <div class="artitleTopSection">
+              <div class="articleTitle">{{ article.title }}</div>
+              <div class="articleTheme">{{ article.theme }}</div>
+            </div>
+            <div class="bottomSection">
+              <div class="articleDate">Posté le {{ article.created_at | dateFormat }}</div>
+              <div class="authorSection">
+                <div class="articleAuthor">{{ article.authorUsername }}</div>
+              </div>
+            </div>
+            <div class="articleDesc">{{ article.description }}</div>
+          </a>
+        </ng-container>
+        <ng-template #noArticles>
+          <div style="display: flex; flex-direction: column; grid-column: span 2; gap: 18px">
+            <div class="noArticlesMessage">Aucun contenu disponible.</div>
+            <img class="noDataImg" src="../../../assets/noData.png" alt="" />
           </div>
-        </div>
-        <div class="articleDesc">{{ article.description }}</div>
-      </a>
+        </ng-template>
+      </ng-container>
     </ng-template>
   </div>
 </div>

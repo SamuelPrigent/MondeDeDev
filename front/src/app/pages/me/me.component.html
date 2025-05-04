@@ -42,31 +42,39 @@
     <!--form-->
   </mat-card-content>
   <!--abonnements-->
-  <div
-    class="separator"
-    style="
-      display: flex;
-      width: 100%;
-      height: 2px;
-      border-radius: 4px;
-      background-color: black;
-      margin: 50px auto 30px;
-    "
-  ></div>
+  <div class="separator"></div>
   <h2 style="margin-bottom: 20px; text-align: center">Abonnements</h2>
   <div class="articleBloc">
-    <div *ngFor="let theme of themes$ | async" class="articleElement">
-      <div class="articleTitle">{{ theme.themeName }}</div>
-      <div class="articleDesc">{{ theme.themeDescription }}</div>
-      <button
-        class="unsubscribeButton"
-        mat-raised-button
-        color="accent"
-        (click)="unsubscribe(theme.id)"
-      >
-        Se désabonner
-      </button>
-    </div>
+    <ng-container *ngIf="themes$ | async as themes">
+      <ng-container *ngIf="themes.length > 0; else noThemes">
+        <div *ngFor="let theme of themes" class="articleElement">
+          <div class="articleTitle">{{ theme.themeName }}</div>
+          <div class="articleDesc">{{ theme.themeDescription }}</div>
+          <button
+            class="unsubscribeButton"
+            mat-raised-button
+            color="accent"
+            (click)="unsubscribe(theme.id)"
+          >
+            Se désabonner
+          </button>
+        </div>
+      </ng-container>
+      <ng-template #noThemes>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin: 0 auto;
+            width: 100%;
+            grid-column: span 2;
+          "
+        >
+          <div class="noThemesMsg">Aucun abonnement actif.</div>
+        </div>
+      </ng-template>
+    </ng-container>
   </div>
   <!--abonnements-->
 </div>
