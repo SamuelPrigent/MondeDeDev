@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../interfaces/user.interface';
 import { AuthService } from 'src/app/features/auth/services/auth.service'; // get Id & user info
@@ -19,6 +20,7 @@ export class MeComponent implements OnInit {
   public userForm: FormGroup;
   public user: User | undefined;
   public themes$!: Observable<Theme[]>;
+  public hide = true;
 
   constructor(
     private fb: FormBuilder,
@@ -26,7 +28,8 @@ export class MeComponent implements OnInit {
     private userService: UserService,
     private sessionService: SessionService,
     private titleService: Title,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private snackBar: MatSnackBar
   ) {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.min(3), Validators.max(20)]],
@@ -63,8 +66,9 @@ export class MeComponent implements OnInit {
       };
       this.userService.putById(this.user.id, putUserRequest).subscribe(
         token => {
-          //   console.log('New token:', token);
           this.sessionService.logIn(token);
+          // snackbar de confirmation de la requête
+          this.snackBar.open('Profil modifié avec succès', 'Fermer', { duration: 2000 });
         },
         error => {
           console.error("Erreur lors de la mise à jour de l'utilisateur:", error);
