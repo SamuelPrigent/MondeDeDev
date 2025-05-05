@@ -23,7 +23,7 @@
             placeholder="Password"
             formControlName="password"
           />
-          <button
+          <div
             mat-icon-button
             matSuffix
             (click)="hide = !hide"
@@ -31,7 +31,7 @@
             [attr.aria-pressed]="hide"
           >
             <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
+          </div>
         </mat-form-field>
       </mat-card-content>
       <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">

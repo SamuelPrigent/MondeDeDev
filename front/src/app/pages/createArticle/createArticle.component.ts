@@ -55,7 +55,9 @@ export class CreateArticleComponent implements OnInit {
         .subscribe(response => {
           if (response) {
             // si post créé
-            this.router.navigate(['/articles']);
+            this.router.navigate(['/articles'], {
+              state: { showArticleCreated: true },
+            });
           }
         });
     }

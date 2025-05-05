@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { loadingDelay$ } from 'src/app/utils/loading.util';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -16,9 +18,19 @@ export class ArticlesComponent implements OnInit {
   public articles$!: Observable<Article[]>;
   public sortOrder$ = new BehaviorSubject<'asc' | 'desc'>('desc');
 
-  constructor(private titleService: Title, private articleService: ArticleService) {}
+  constructor(
+    private titleService: Title,
+    private articleService: ArticleService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    // snackbar when article created
+    const state = this.router.getCurrentNavigation()?.extras.state ?? history.state;
+    if (state && state['showArticleCreated']) {
+      this.snackBar.open('Article créé avec succès', 'Fermer', { duration: 2000 });
+    }
     // loading state
     this.loading = true;
     loadingDelay$().subscribe(() => (this.loading = false));
