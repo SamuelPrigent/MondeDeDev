@@ -2,6 +2,15 @@ package com.openclassrooms.mddapi.models;
 
 import jakarta.persistence.*;
 
+/**
+ * Entité JPA représentant un commentaire.
+ * <p>
+ * Chaque {@code Comment} est :
+ * <ul>
+ * <li>associé à un {@link Article} (relation {@code ManyToOne}) ;</li>
+ * <li>écrit par un {@link User} (relation {@code ManyToOne}).</li>
+ * </ul>
+ */
 @Entity
 @Table(name = "article_comments")
 public class Comment {

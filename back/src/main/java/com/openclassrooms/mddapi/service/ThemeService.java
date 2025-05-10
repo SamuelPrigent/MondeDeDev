@@ -13,6 +13,11 @@ public class ThemeService {
 	@Autowired
 	private ThemeRepository themeRepository;
 
+	/**
+	 * Récupère l'ensemble des thèmes disponibles dans la base de données.
+	 *
+	 * @return liste des thèmes exposés sous forme de {@link GetThemesDTO}
+	 */
 	public List<GetThemesDTO> getAllThemes() {
 		List<Themes> themes = themeRepository.findAll();
 		return themes.stream()

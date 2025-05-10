@@ -10,6 +10,21 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+/**
+ * Entité JPA représentant un utilisateur de la plateforme.
+ * <p>
+ * Un {@code User} contient :
+ * <ul>
+ * <li>un identifiant technique ;</li>
+ * <li>un nom d’utilisateur unique (username) ;</li>
+ * <li>un e-mail unique ;</li>
+ * <li>un mot de passe chiffré ;</li>
+ * <li>des dates de création et de mise à jour gérées automatiquement ;</li>
+ * <li>référencé par {@link Article}, {@link Comment} et {@link Themes} ;</li>
+ * </ul>
+ * Les contraintes d’unicité sont définies sur <code>email</code> et
+ * <code>username</code>.
+ */
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email"),
 		@UniqueConstraint(columnNames = "username") })

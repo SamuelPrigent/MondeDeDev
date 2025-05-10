@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service pour la gestion des thèmes et des abonnements.
+ */
 @Service
 public class ThemeUserService {
 
@@ -26,7 +29,13 @@ public class ThemeUserService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	//
+	/**
+	 * Récupère la liste de tous les thèmes avec une indication d'abonnement pour
+	 * l'utilisateur authentifié.
+	 *
+	 * @param token JWT de l'utilisateur
+	 * @return liste de thèmes + statut abonnement
+	 */
 	public List<GetThemesWithSubsInfoDTO> getAllThemesWithSubsInfo(String token) {
 		String email = jwtUtil.extractEmail(token);
 		Optional<User> userOpt = userRepository.findByEmail(email);
@@ -39,7 +48,12 @@ public class ThemeUserService {
 		}).collect(Collectors.toList());
 	}
 
-	// Retourne la liste des thèmes de l'utilisateur à partir du token
+	/**
+	 * Retourne les thèmes auxquels l'utilisateur authentifié est abonné.
+	 *
+	 * @param token JWT de l'utilisateur
+	 * @return liste des thèmes sous forme de {@link GetThemesDTO}
+	 */
 	public List<GetThemesDTO> getThemesForMe(String token) {
 		Long userId = jwtUtil.extractUserId(token);
 		if (userId == null) {
@@ -48,7 +62,13 @@ public class ThemeUserService {
 		return getThemesByUserId(userId);
 	}
 
-	// Abonnement à un thème
+	/**
+	 * Abonne l'utilisateur au thème donné.
+	 *
+	 * @param themeId identifiant du thème
+	 * @param token   JWT de l'utilisateur
+	 * @return {@code true} si l'abonnement a réussi, {@code false} sinon
+	 */
 	public boolean subscribeTheme(Long themeId, String token) {
 		String email = jwtUtil.extractEmail(token);
 		Optional<User> userOpt = userRepository.findByEmail(email);
@@ -69,7 +89,13 @@ public class ThemeUserService {
 		return true;
 	}
 
-	// Désabonnement d'un thème
+	/**
+	 * Désabonne l'utilisateur du thème donné.
+	 *
+	 * @param themeId identifiant du thème
+	 * @param token   JWT de l'utilisateur
+	 * @return {@code true} si le désabonnement a réussi, {@code false} sinon
+	 */
 	public boolean unsubscribeTheme(Long themeId, String token) {
 		String email = jwtUtil.extractEmail(token);
 		Optional<User> userOpt = userRepository.findByEmail(email);
@@ -89,6 +115,12 @@ public class ThemeUserService {
 		return true;
 	}
 
+	/**
+	 * Récupère les thèmes d'un utilisateur par son identifiant.
+	 *
+	 * @param userId identifiant de l'utilisateur
+	 * @return liste des thèmes sous forme de {@link GetThemesDTO}
+	 */
 	public List<GetThemesDTO> getThemesByUserId(Long userId) {
 		List<Themes> themes = themeUserRepository.findThemesByUserId(userId);
 		return themes.stream()

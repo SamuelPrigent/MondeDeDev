@@ -17,21 +17,39 @@ import com.openclassrooms.mddapi.dto.LoginResponseDTO;
 import com.openclassrooms.mddapi.service.UserService;
 import com.openclassrooms.mddapi.security.JwtUtil;
 
+/**
+ * Contrôleur REST responsable de l'authentification et de l'inscription des
+ * utilisateurs.
+ * <p>
+ * Il fournit des endpoints pour :
+ * <ul>
+ * <li>l'inscription d'un nouvel utilisateur ;</li>
+ * <li>la connexion et la génération d'un jeton JWT ;</li>
+ * <li>la récupération des informations de l'utilisateur courant.</li>
+ * </ul>
+ * Les routes sont préfixées par <code>/api</code>.
+ */
 @RestController
 @RequestMapping("/api")
 public class AuthController {
 
+	/** Service métier gérant les opérations sur les utilisateurs. */
 	@Autowired
 	private UserService userService;
 
+	/** Gestionnaire Spring Security pour l'authentification. */
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	/** Utilitaire de création et de validation des JWT. */
 	@Autowired
 	private JwtUtil jwtUtil;
 
 	/**
-	 * POST /api/auth/register
+	 * Inscrit un nouvel utilisateur.
+	 *
+	 * @param createUserDTO informations du nouvel utilisateur {@link CreateUserDTO}
+	 * @return l'utilisateur créé au format {@link GetUserDTO}
 	 */
 	@PostMapping(value = { "/auth/register", "/auth/register/" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GetUserDTO> register(@RequestBody CreateUserDTO createUserDTO) {
@@ -39,6 +57,13 @@ public class AuthController {
 		return ResponseEntity.ok(createdUser);
 	}
 
+	/**
+	 * Authentifie un utilisateur et génère un jeton JWT.
+	 *
+	 * @param loginRequest identifiants de connexion {@link LoginRequestDTO}
+	 * @return un {@link LoginResponseDTO} contenant le token JWT et l'identifiant
+	 *         utilisateur
+	 */
 	@PostMapping({ "/auth/login", "/auth/login/" })
 	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
 		try {
@@ -65,7 +90,10 @@ public class AuthController {
 	}
 
 	/**
-	 * GET /api/auth/me
+	 * Récupère l'utilisateur actuellement authentifié.
+	 *
+	 * @param authHeader en-tête HTTP contenant le jeton <code>Bearer</code>
+	 * @return les informations de l'utilisateur courant {@link GetUserDTO}
 	 */
 	@GetMapping({ "/auth/me", "/auth/me/" })
 	public ResponseEntity<GetUserDTO> getCurrentUser(@RequestHeader("Authorization") String authHeader) {

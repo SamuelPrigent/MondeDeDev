@@ -9,6 +9,18 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+/**
+ * Entité JPA représentant un article publié par un utilisateur.
+ * <p>
+ * Un {@code Article} possède :
+ * <ul>
+ * <li>un titre ;</li>
+ * <li>une description ;</li>
+ * <li>un thème auquel il est rattaché ;</li>
+ * <li>un auteur {@link User} ;</li>
+ * <li>des dates de création et de mise à jour gérées automatiquement.</li>
+ * </ul>
+ */
 @Entity
 @Table(name = "articles")
 @EntityListeners(AuditingEntityListener.class)

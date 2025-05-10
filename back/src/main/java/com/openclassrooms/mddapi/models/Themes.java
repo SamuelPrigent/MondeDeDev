@@ -3,6 +3,17 @@ package com.openclassrooms.mddapi.models;
 import jakarta.persistence.*;
 import java.util.Set;
 
+/**
+ * Entité JPA représentant un thème auquel les utilisateurs peuvent s'abonner.
+ * <p>
+ * Un {@code Themes} comprend :
+ * <ul>
+ * <li>un identifiant technique ;</li>
+ * <li>un nom et une description ;</li>
+ * <li>une relation <i>many-to-many</i> avec {@link User} réalisée par la table
+ * de jointure <code>theme_user(theme_id, user_id)</code>.</li>
+ * </ul>
+ */
 @Entity
 @Table(name = "themes")
 public class Themes {

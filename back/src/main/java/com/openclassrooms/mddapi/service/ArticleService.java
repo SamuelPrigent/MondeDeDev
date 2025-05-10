@@ -42,17 +42,31 @@ public class ArticleService {
 	@Autowired
 	private ThemeService themeService;
 
-	// Récupérer un article par son id
+	/**
+	 * Récupère un article par son identifiant.
+	 *
+	 * @param id identifiant de l'article
+	 * @return {@link Optional} contenant l'{@link Article} si trouvé, sinon vide
+	 */
 	public Optional<Article> getById(Long id) {
 		return articleRepository.findById(id);
 	}
 
-	// Récupérer tous les articles
+	/**
+	 * Récupère l'ensemble des articles disponibles.
+	 *
+	 * @return liste d'articles {@link Article}
+	 */
 	public List<Article> getArticles() {
 		return articleRepository.findAll();
 	}
 
-	// Récupérer les articles auxquels l'utilisateur est abonné (logique complète)
+	/**
+	 * Récupère les articles liés aux thèmes auxquels l'utilisateur est abonné.
+	 *
+	 * @param token JWT de l'utilisateur (préfixe "Bearer " retiré en amont)
+	 * @return liste des articles convertis en {@link GetArticleDTO}
+	 */
 	public List<GetArticleDTO> getSubscribedArticles(String token) {
 		// Extraire l'email du token
 		String email = jwtUtil.extractEmail(token);
@@ -69,7 +83,14 @@ public class ArticleService {
 				.map(GetArticleDTO::new).toList();
 	}
 
-	// Create Article
+	/**
+	 * Crée un nouvel article.
+	 *
+	 * @param request données de l'article à créer ({@link CreateArticleDTO})
+	 * @param token   JWT de l'auteur
+	 * @return DTO de l'article créé
+	 * @throws IllegalArgumentException si le thème n'existe pas ou si l'utilisateur n'est pas trouvé
+	 */
 	public GetArticleDTO createArticle(CreateArticleDTO request, String token) {
 		// validation données request
 		request.validate();
@@ -100,7 +121,12 @@ public class ArticleService {
 		return new GetArticleDTO(savedArticle);
 	}
 
-	// Retourne une liste de GetCommentDTO (ou List<Comment> si tu veux transformer ensuite)
+	/**
+	 * Récupère les commentaires associés à un article.
+	 *
+	 * @param articleId identifiant de l'article
+	 * @return liste des commentaires en {@link GetCommentDTO}
+	 */
 	public List<GetCommentDTO> getCommentsByArticle(Long articleId) {
 		Article article = articleRepository.findById(articleId)
 				.orElseThrow(() -> new IllegalArgumentException("Article non trouvé"));
@@ -108,7 +134,15 @@ public class ArticleService {
 		return comments.stream().map(GetCommentDTO::new).toList();
 	}
 
-	// post comment 
+	/**
+	 * Publie un commentaire sur un article.
+	 *
+	 * @param articleId identifiant de l'article
+	 * @param dto       contenu du commentaire ({@link PostCommentDTO})
+	 * @param token     JWT de l'utilisateur
+	 * @return entité {@link Comment} sauvegardée
+	 * @throws IllegalArgumentException si l'article ou l'utilisateur est introuvable
+	 */
 	public Comment postComment(Long articleId, PostCommentDTO dto, String token) {
 		// Vérifier que l'article existe
 		Article article = articleRepository.findById(articleId)
