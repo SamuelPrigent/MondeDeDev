@@ -2,6 +2,10 @@ package com.openclassrooms.mddapi.repository;
 
 import com.openclassrooms.mddapi.models.User;
 
+/**
+ * Repository Spring Data JPA pour l'entité {@link User} avec méthodes de recherche
+ * personnalisées sur <code>email</code> et <code>username</code>.
+ */
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

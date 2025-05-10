@@ -54,6 +54,14 @@
 
 5. Le schéma sera créé automatiquement au premier lancement si la configuration JPA est correcte.
 
+### Génération de la documentation JavaDoc
+
+- Depuis le dossier `back`, exécutez :
+  ```bash
+  ./mvnw javadoc:javadoc
+  ```
+- La documentation sera disponible dans `back/target/site/apidocs/index.html`.
+
 ---
 
 ## Résumé

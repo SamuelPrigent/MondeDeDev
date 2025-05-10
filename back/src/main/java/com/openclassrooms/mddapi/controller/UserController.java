@@ -18,6 +18,15 @@ import com.openclassrooms.mddapi.dto.UpdateUserDTO;
 import com.openclassrooms.mddapi.service.UserService;
 import com.openclassrooms.mddapi.security.JwtUtil;
 
+/**
+ * Contrôleur REST pour la consultation et la mise à jour d'un utilisateur.
+ * <p>
+ * Principales fonctionnalités :
+ * <ul>
+ *   <li>Récupération d'un utilisateur par son identifiant ;</li>
+ *   <li>Mise à jour sécurisée du profil utilisateur avec génération d'un nouveau JWT.</li>
+ * </ul>
+ */
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -32,7 +41,10 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 
 	/**
-	 * GET /api/user/{id}
+	 * Récupère un utilisateur par son identifiant.
+	 *
+	 * @param id identifiant de l'utilisateur
+	 * @return l'utilisateur au format {@link GetUserDTO}
 	 */
 	@GetMapping("/user/{id}")
 	public ResponseEntity<GetUserDTO> getUserById(@PathVariable Long id) {
@@ -41,7 +53,12 @@ public class UserController {
 	}
 
 	/**
-	 * Nouvelle version : PUT /api/user/{id} avec vérification via l'id du token
+	 * Met à jour un utilisateur après vérification de l'identité via le JWT.
+	 *
+	 * @param id            identifiant de l'utilisateur à mettre à jour
+	 * @param token         en-tête <code>Bearer</code> contenant le JWT
+	 * @param updateUserDTO données de mise à jour {@link UpdateUserDTO}
+	 * @return un {@link LoginResponseDTO} contenant un nouveau token et l'id utilisateur
 	 */
 	@PutMapping({ "/user/{id}", "/user/{id}/" })
 	public ResponseEntity<?> putUserById(@PathVariable Long id, @RequestHeader("Authorization") String token,
